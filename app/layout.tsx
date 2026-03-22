@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Google_Sans_Flex } from "next/font/google";
 import { home } from "@/content";
 import "./globals.css";
+import { Header } from "./components";
 import Providers from "./providers";
 
 const googleSansFlex = Google_Sans_Flex({
@@ -35,7 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${googleSansFlex.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
