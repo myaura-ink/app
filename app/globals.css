@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f5f2;
+  --foreground: #2d4036;
+  --primary: #200caa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-google-sans-flex: "Google Sans Flex", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
