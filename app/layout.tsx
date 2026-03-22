@@ -15,6 +15,16 @@ const googleSansFlex = Google_Sans_Flex({
 export const metadata: Metadata = {
   title: home.title,
   description: home.description,
+  openGraph: {
+    title: home.title,
+    description: home.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: home.title,
+    description: home.description,
+  },
+  keywords: home.keywords,
 };
 
 export default function RootLayout({
