@@ -6,5 +6,5 @@
     "source.organizeImports.biome": "always",
     "source.removeUnusedImports": "always"
   },
-  "conventionalCommits.scopes": ["setup"]
+  "conventionalCommits.scopes": ["setup", "auth"]
 }

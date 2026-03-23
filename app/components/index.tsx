@@ -1,3 +1,4 @@
+export * from "./auth";
 export * from "./auth-button";
 export * from "./footer";
 export * from "./header";
