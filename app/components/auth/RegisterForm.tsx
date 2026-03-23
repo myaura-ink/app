@@ -4,7 +4,7 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSupabase } from "@/app/hooks/useSupabase";
 
-export interface RegisterData {
+interface RegisterData {
   name: string;
   email: string;
   password: string;

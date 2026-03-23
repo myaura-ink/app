@@ -4,7 +4,7 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSupabase } from "@/app/hooks/useSupabase";
 
-export interface LoginData {
+interface LoginData {
   email: string;
   password: string;
 }
