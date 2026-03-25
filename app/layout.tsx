@@ -19,6 +19,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: home.title,
     description: home.description,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/aura.png`,
+        width: 1200,
+        height: 630,
+        alt: "Aura - A platform for writers and readers",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

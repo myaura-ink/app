@@ -10,7 +10,7 @@ interface RegisterData {
   password: string;
 }
 
-export function RegisterForm() {
+export const RegisterForm = () => {
   const supabase = useSupabase();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<RegisterData>({
@@ -130,4 +130,4 @@ export function RegisterForm() {
       </form>
     </Stack>
   );
-}
+};

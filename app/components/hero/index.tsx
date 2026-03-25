@@ -30,8 +30,8 @@ export const Hero = () => {
         life.
       </Typography>
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-        <Button variant="outlined" size="large">
-          Coming Soon...
+        <Button href="/dive" variant="outlined" size="large">
+          Get Started
         </Button>
         <Button href={config.socials.discord} variant="contained" size="large">
           Join discord community &rarr;

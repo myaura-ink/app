@@ -2,41 +2,41 @@ import { Box, Container, Divider, Stack, Typography } from "@mui/material";
 
 export const Mission = () => {
   return (
-    <Box component="section" className="py-20 bg-[#fdfcf8] space-y-20">
+    <Box component="section" sx={{ py: 10, bgcolor: "background.default" }}>
       <Container maxWidth="lg">
-        <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
-          <Container sx={{ border: "1px solid #e0e0e0", borderRadius: 2, p: 2 }}>
+        <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+          <Box sx={{ flex: 1, border: "1px solid", borderColor: "divider", borderRadius: 2, p: 4 }}>
             <Typography variant="overline" color="secondary.main" fontWeight={600}>
-              THE DISCOVERY GAP
+              The Discovery Gap
             </Typography>
-            <Typography variant="h3" fontWeight={600} color="primary.main">
+            <Typography variant="h3" fontWeight={700} color="primary.main" mt={1} mb={2} lineHeight={1.2}>
               Stop writing into the void.
             </Typography>
-            <Typography mt={2} component="p" variant="body1" color="text.secondary">
+            <Typography component="p" variant="body1" color="text.secondary" lineHeight={1.8}>
               Every day, brilliant creativity is lost because writers are forced to guess what the world wants.
               Meanwhile, readers search for specific arcs and characters that simply don&apos;t exist yet.
             </Typography>
-            <Divider sx={{ width: "16%", borderColor: "stone.300", mb: 4 }} />
-            <Typography component="p" variant="body1" color="text.secondary" className="italic">
+            <Divider sx={{ my: 3, width: "15%", borderColor: "divider" }} />
+            <Typography component="p" variant="body1" color="text.secondary" fontStyle="italic">
               &quot;Aura bridges the gap between creative ambition and intentional demand.&quot;
             </Typography>
-          </Container>
+          </Box>
 
-          <Container sx={{ border: "1px solid #e0e0e0", borderRadius: 2, p: 2 }}>
+          <Box sx={{ flex: 1, border: "1px solid", borderColor: "divider", borderRadius: 2, p: 4 }}>
             <Typography variant="overline" color="secondary.main" fontWeight={600}>
-              THE MISSING PIECE
+              The Missing Piece
             </Typography>
-            <Typography variant="h3" fontWeight={600} color="primary.main">
+            <Typography variant="h3" fontWeight={700} color="primary.main" mt={1} mb={2} lineHeight={1.2}>
               Stop finding a needle in a haystack.
             </Typography>
-            <Typography mt={2} component="p" variant="body1" color="text.secondary">
+            <Typography component="p" variant="body1" color="text.secondary" lineHeight={1.8}>
               Tell the creator what you want to bring to life. Help writers find their muse.
             </Typography>
-            <Divider sx={{ width: "16%", borderColor: "stone.300", mb: 4 }} />
-            <Typography component="p" variant="body1" color="text.secondary" className="italic">
+            <Divider sx={{ my: 3, width: "15%", borderColor: "divider" }} />
+            <Typography component="p" variant="body1" color="text.secondary" fontStyle="italic">
               &quot;Aura is the missing piece in the puzzle of storytelling.&quot;
             </Typography>
-          </Container>
+          </Box>
         </Stack>
       </Container>
     </Box>
