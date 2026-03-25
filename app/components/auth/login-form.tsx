@@ -9,7 +9,7 @@ interface LoginData {
   password: string;
 }
 
-export function LoginForm() {
+export const LoginForm = () => {
   const supabase = useSupabase();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<LoginData>({
@@ -104,4 +104,4 @@ export function LoginForm() {
       </form>
     </Stack>
   );
-}
+};

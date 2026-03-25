@@ -3,7 +3,13 @@ import { AuthButton } from "../auth-button";
 
 export const Header = () => {
   return (
-    <AppBar position="sticky" color="inherit" variant="outlined" sx={{ borderRadius: 1 }}>
+    <AppBar
+      position="sticky"
+      color="inherit"
+      variant="elevation"
+      elevation={0}
+      sx={{ borderBottom: 1, borderColor: "divider" }}
+    >
       <Toolbar>
         <Container maxWidth={"lg"}>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -22,14 +28,11 @@ const Brand = () => {
       <Typography
         component="span"
         variant="h6"
-        color="text.secondary"
-        fontWeight={600}
-        sx={{ ":hover": { fontWeight: 800 } }}
+        color="primary.main"
+        fontWeight={700}
+        sx={{ letterSpacing: "-0.02em", opacity: 1, transition: "opacity 0.15s", ":hover": { opacity: 0.7 } }}
       >
-        <Typography component="span" variant="h4" color="primary.main" fontWeight={800}>
-          a
-        </Typography>
-        ura
+        <Typography component="span" variant="h5" color="primary.main" fontWeight={800}>a</Typography>ura
       </Typography>
     </Link>
   );

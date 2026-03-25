@@ -29,7 +29,8 @@ export const AuthButton = () => {
 
   const handlePortfolio = () => {
     handleClose();
-    router.push("/portfolio");
+    const username = user?.user_metadata?.username || user?.user_metadata?.name?.toLowerCase().replace(/\s+/g, "-") || "user";
+    router.push(`/portfolio/${username}`);
   };
 
   const handleLogout = async () => {

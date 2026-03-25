@@ -1,96 +1,54 @@
-"use client";
-
-import { Box, Container, Paper, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
-import { LoginForm, RegisterForm } from "../components";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`auth-tabpanel-${index}`}
-      aria-labelledby={`auth-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box>{children}</Box>}
-    </div>
-  );
-}
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import Link from "next/link";
+import { DivePageClient } from "./client-wrapper";
 
 export default function Dive() {
-  const [tabValue, setTabValue] = useState(0);
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
   return (
-    <Container maxWidth="sm">
+    <Box sx={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      {/* Left — brand panel */}
       <Box
         sx={{
-          display: "flex",
-          minHeight: "100vh",
-          alignItems: "center",
-          justifyContent: "center",
-          py: 4,
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          justifyContent: "space-between",
+          width: "42%",
+          flexShrink: 0,
+          bgcolor: "primary.dark",
+          p: 6,
         }}
       >
-        <Paper
-          elevation={2}
-          sx={{
-            width: "100%",
-            borderRadius: 2,
-            overflow: "hidden",
-          }}
-        >
-          {/* Tab Navigation */}
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            aria-label="authentication tabs"
-            sx={{
-              borderBottom: 1,
-              borderColor: "divider",
-              bgcolor: "background.paper",
-            }}
-            centered
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <Typography variant="h4" fontWeight={800} sx={{ color: "primary.contrastText", letterSpacing: "-0.02em" }}>
+            <Typography component="span" variant="h3" fontWeight={800} sx={{ color: "secondary.light" }}>
+              a
+            </Typography>
+            ura
+          </Typography>
+        </Link>
+
+        <Stack gap={3}>
+          <Typography
+            variant="h3"
+            fontWeight={700}
+            lineHeight={1.2}
+            sx={{ color: "primary.contrastText", letterSpacing: "-0.02em" }}
           >
-            <Tab
-              label="Sign In"
-              id="auth-tab-0"
-              aria-controls="auth-tabpanel-0"
-              sx={{ fontWeight: tabValue === 0 ? 600 : 500 }}
-            />
-            <Tab
-              label="Create Account"
-              id="auth-tab-1"
-              aria-controls="auth-tabpanel-1"
-              sx={{ fontWeight: tabValue === 1 ? 600 : 500 }}
-            />
-          </Tabs>
+            Stories that find their reader.
+          </Typography>
+          <Divider sx={{ borderColor: "rgba(255,255,255,0.15)", width: "20%" }} />
+          <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.75 }}>
+            A space where writers write with intention and readers read with purpose. Join the inner circle of
+            intentional storytelling.
+          </Typography>
+        </Stack>
 
-          {/* Tab Content */}
-          <Box sx={{ p: 4 }}>
-            {/* Login Form */}
-            <TabPanel value={tabValue} index={0}>
-              <LoginForm />
-            </TabPanel>
-
-            {/* Register Form */}
-            <TabPanel value={tabValue} index={1}>
-              <RegisterForm />
-            </TabPanel>
-          </Box>
-        </Paper>
+        <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.3)" }}>
+          © {new Date().getFullYear()} Aura. All rights reserved.
+        </Typography>
       </Box>
-    </Container>
+
+      {/* Right — form panel */}
+      <DivePageClient />
+    </Box>
   );
 }
