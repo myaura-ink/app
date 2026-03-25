@@ -1,20 +1,18 @@
-import { AppBar, Box, Container, Link, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Link, Stack, Toolbar, Typography } from "@mui/material";
 import { AuthButton } from "../auth-button";
 
 export const Header = () => {
   return (
-    <Box component="header">
-      <AppBar color="inherit" variant="outlined" sx={{ borderRadius: 1 }}>
-        <Toolbar>
-          <Container maxWidth={"lg"}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Brand />
-              <AuthButton />
-            </Stack>
-          </Container>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar position="sticky" color="inherit" variant="outlined" sx={{ borderRadius: 1 }}>
+      <Toolbar>
+        <Container maxWidth={"lg"}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Brand />
+            <AuthButton />
+          </Stack>
+        </Container>
+      </Toolbar>
+    </AppBar>
   );
 };
 
