@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
 import NextLink from "next/link";
 
-export interface CreativeCardProps {
+interface CreativeCardProps {
   slug: string;
   title: string;
   author: string;
