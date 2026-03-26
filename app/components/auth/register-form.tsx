@@ -79,13 +79,13 @@ export const RegisterForm = () => {
         <Stack spacing={2.5}>
           <TextField
             fullWidth
-            label="Full Name"
+            label="Username"
             name="name"
             type="text"
             value={formData.name}
             onChange={handleChange}
             required
-            placeholder="John Doe"
+            placeholder="john-doe"
             variant="outlined"
           />
           <TextField

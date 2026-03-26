@@ -56,12 +56,26 @@ export const ChapterPageClient = ({
   const sidebarContent = (
     <Box sx={{ width: SIDEBAR_WIDTH, display: "flex", flexDirection: "column", height: "100%" }}>
       <Box sx={{ px: 2.5, pt: 3, pb: 2 }}>
-        <Typography variant="overline" color="text.disabled" fontWeight={600}>
-          Chapters
-        </Typography>
-        <Typography variant="subtitle2" fontWeight={700} color="text.primary" mt={0.5} noWrap>
-          {book?.title || "Untitled"}
-        </Typography>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Tooltip title="Back to creative">
+            <IconButton
+              component={NextLink}
+              href={`/creative/${slug}`}
+              size="small"
+              sx={{ ml: -1, display: { xs: "none", md: "flex" } }}
+            >
+              <ArrowBack fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="overline" color="text.disabled" fontWeight={600}>
+              Chapters
+            </Typography>
+            <Typography variant="subtitle2" fontWeight={700} color="text.primary" noWrap>
+              {book?.title || "Untitled"}
+            </Typography>
+          </Box>
+        </Stack>
       </Box>
       <Divider />
       <List dense sx={{ flex: 1, overflowY: "auto", py: 1 }}>
@@ -123,7 +137,13 @@ export const ChapterPageClient = ({
         <IconButton component={NextLink} href={`/creative/${slug}`} size="small">
           <ArrowBack fontSize="small" />
         </IconButton>
-        <Box sx={{ flex: 1 }} />
+        <Typography
+          variant="body2"
+          fontWeight={600}
+          sx={{ flex: 1, ml: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+        >
+          {chapter.title}
+        </Typography>
         <IconButton onClick={() => setSidebarOpen(true)} sx={{ display: { md: "none" } }}>
           <FormatListBulleted fontSize="small" />
         </IconButton>
@@ -171,7 +191,13 @@ export const ChapterPageClient = ({
           }}
         >
           <Box sx={{ maxWidth: "45rem", mx: "auto", width: "100%" }}>
-            <Typography variant="h3" fontWeight={700} mb={4} lineHeight={1.2}>
+            <Typography
+              variant="h3"
+              fontWeight={700}
+              mb={4}
+              lineHeight={1.2}
+              sx={{ display: { xs: "none", md: "block" } }}
+            >
               {chapter.title}
             </Typography>
             <Stack gap={3}>

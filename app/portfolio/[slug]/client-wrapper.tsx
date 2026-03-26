@@ -93,14 +93,14 @@ export const PortfolioPageClient = ({ works, readingList }: { works: Book[]; rea
       <TabPanel value={tab} index={2}>
         <Stack gap={3}>
           <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-            Author Name is a fiction and science-fiction writer based in Mumbai. With a passion for exploring the
+            Author Name is a fiction and science-fiction writer based in London. With a passion for exploring the
             intersection of technology and humanity, their stories challenge readers to think differently about the
             world around them.
           </Typography>
           <Divider />
           <Stack gap={1}>
             <Typography variant="body2">
-              <strong>Location:</strong> Mumbai, India
+              <strong>Location:</strong> London, UK
             </Typography>
             <Typography variant="body2">
               <strong>Member since:</strong> January 2023
