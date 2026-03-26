@@ -3,6 +3,7 @@ import { Google_Sans_Flex } from "next/font/google";
 import { home } from "@/content";
 import "./globals.css";
 import { Header } from "./components";
+import { config } from "./config";
 import Providers from "./providers";
 
 const googleSansFlex = Google_Sans_Flex({
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     description: home.description,
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/aura.png`,
+        url: `${config.platform}/opengraph-image.png`,
         width: 1200,
         height: 630,
         alt: "Aura - A platform for writers and readers",

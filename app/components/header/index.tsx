@@ -45,11 +45,7 @@ export const Header = () => {
               {/* Left: brand + desktop nav */}
               <Stack direction="row" alignItems="center" gap={2}>
                 <Brand />
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  sx={{ display: { xs: "none", sm: "flex" }, ml: 2 }}
-                >
+                <Stack direction="row" alignItems="center" sx={{ display: { xs: "none", sm: "flex" }, ml: 2 }}>
                   {NAV_LINKS.map(({ label, href }) => (
                     <Button
                       key={href}
