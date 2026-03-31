@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Container, Stack, Typography } from "@mui/material";
 import { PortfolioPageClient } from "./client-wrapper";
 
 const WORKS = [
@@ -79,6 +79,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
                 @author_name
               </Typography>
             </Stack>
+            <Button variant="contained" size="small" href="/write" sx={{ alignSelf: { xs: "center", sm: "flex-start" } }}>
+              Write
+            </Button>
             <Stack direction="row" gap={4} justifyContent={{ xs: "center", sm: "flex-start" }}>
               <Stack direction="column" gap={0.25} alignItems="center">
                 <Typography variant="h6" fontWeight={700}>
