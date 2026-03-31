@@ -1,4 +1,5 @@
 import { Box, Card, CardMedia, Chip, Container, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 import NextLink from "next/link";
 import { CreativePageClient } from "./client-wrapper";
 
@@ -119,11 +120,27 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
         >
           <Card sx={{ boxShadow: 0, border: "1px solid", borderColor: "divider", flexShrink: 0 }}>
             <CardMedia
-              component="img"
-              sx={{ width: { xs: 120, sm: 160 }, height: { xs: 172, sm: 230 }, objectFit: "cover", display: "block" }}
-              image={BOOK.cover}
-              alt={BOOK.title}
-            />
+              sx={{
+                // Responsive container sizes
+                width: { xs: 120, sm: 160 },
+                height: { xs: 172, sm: 230 },
+                flexShrink: 0,
+                position: "relative", // Context for the 'fill' image
+                display: "block",
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                src={BOOK.cover}
+                alt={BOOK.title}
+                fill
+                sizes="(max-width: 600px) 120px, 160px" // Tells Next.js exactly which size to serve
+                style={{
+                  objectFit: "cover",
+                }}
+                priority // Books covers are usually the main content, so priority helps LCP
+              />
+            </CardMedia>
           </Card>
           <Stack
             gap={1.5}
