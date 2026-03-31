@@ -1,4 +1,5 @@
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 import NextLink from "next/link";
 
 interface CreativeCardProps {
@@ -47,17 +48,25 @@ export const CreativeCard = ({
           }}
         >
           <CardMedia
-            component="img"
             sx={{
               width: 100,
               height: 140,
-              objectFit: "cover",
               flexShrink: 0,
               borderRadius: 0.5,
+              overflow: "hidden", // Ensures the image respects the borderRadius
+              position: "relative",
             }}
-            image={cover}
-            alt={title}
-          />
+          >
+            <Image
+              src={cover}
+              alt={title}
+              width={100}
+              height={140}
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          </CardMedia>
           <Stack gap={0.5} minWidth={0} flex={1}>
             <Typography variant="subtitle2" fontWeight={600} color="inherit">
               {title}
@@ -91,16 +100,23 @@ export const CreativeCard = ({
         sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", flex: 1 }}
       >
         <CardMedia
-          component="img"
           sx={{
+            position: "relative", // Required for fill layout
             width: "100%",
             height,
-            objectFit: "cover",
             flexShrink: 0,
           }}
-          image={cover}
-          alt={title}
-        />
+        >
+          <Image
+            src={cover}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+        </CardMedia>
         <CardContent
           sx={{
             p: 1.5,
