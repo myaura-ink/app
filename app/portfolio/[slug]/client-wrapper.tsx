@@ -1,119 +1,147 @@
 "use client";
 
-import { Box, Container, Divider, Stack, Tab, Tabs, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import {
+  Box,
+  Button,
+  Chip,
+  Container,
+  Divider,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { CreativeCard, TabPanel } from "@/app/components";
+import { useAuthContext } from "@/app/contexts";
+import { useUserCreatives } from "@/app/hooks/useCreatives";
 
-interface Book {
-  id: number;
-  slug: string;
-  title: string;
-  author: string;
-  genre: string;
-  cover: string;
-  description?: string;
+interface Props {
+  userSlug: string;
+  userId: string;
+  userName: string | null;
+  memberSince: string | null;
 }
 
-export const PortfolioPageClient = ({ works, readingList }: { works: Book[]; readingList: Book[] }) => {
+export const PortfolioPageClient = ({ userSlug, userId, userName, memberSince }: Props) => {
   const [tab, setTab] = useState(0);
+  const { user: authUser, token } = useAuthContext();
+  const isOwn = authUser?.id === userId;
+
+  const { data, isLoading } = useUserCreatives(userSlug, isOwn ? token : null);
+  const works = data?.creatives ?? [];
+
+  const memberYear = memberSince ? new Date(memberSince).getFullYear() : null;
 
   return (
-    <Container maxWidth="md">
-      <Divider />
-      <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mt: 0 }}>
-        <Tab label="Works" />
-        <Tab label="Reading List" />
-        <Tab label="About" />
-      </Tabs>
-
-      <TabPanel value={tab} index={0}>
-        <Box sx={{ display: { xs: "none", sm: "flex" }, flexWrap: "wrap", gap: 2 }}>
-          {works.map((book) => (
-            <CreativeCard
-              key={book.id}
-              slug={book.slug}
-              title={book.title}
-              author={book.author}
-              genre={book.genre}
-              cover={book.cover}
-              description={book.description}
-              variant="card"
-            />
-          ))}
-        </Box>
-        <Stack sx={{ display: { xs: "block", sm: "none" } }}>
-          <Stack gap={0} divider={<Divider />}>
-            {works.map((book) => (
-              <CreativeCard
-                key={book.id}
-                slug={book.slug}
-                title={book.title}
-                author={book.author}
-                genre={book.genre}
-                cover={book.cover}
-                description={book.description}
-                variant="list"
-              />
-            ))}
-          </Stack>
-        </Stack>
-      </TabPanel>
-
-      <TabPanel value={tab} index={1}>
-        <Box sx={{ display: { xs: "none", sm: "flex" }, flexWrap: "wrap", gap: 2 }}>
-          {readingList.map((book) => (
-            <CreativeCard
-              key={book.id}
-              slug={book.slug}
-              title={book.title}
-              author={book.author}
-              genre={book.genre}
-              cover={book.cover}
-              variant="card"
-            />
-          ))}
-        </Box>
-        <Stack sx={{ display: { xs: "block", sm: "none" } }}>
-          <Stack gap={0} divider={<Divider />}>
-            {readingList.map((book) => (
-              <CreativeCard
-                key={book.id}
-                slug={book.slug}
-                title={book.title}
-                author={book.author}
-                genre={book.genre}
-                cover={book.cover}
-                variant="list"
-              />
-            ))}
-          </Stack>
-        </Stack>
-      </TabPanel>
-
-      <TabPanel value={tab} index={2}>
-        <Stack gap={3}>
-          <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-            Author Name is a fiction and science-fiction writer based in London. With a passion for exploring the
-            intersection of technology and humanity, their stories challenge readers to think differently about the
-            world around them.
-          </Typography>
-          <Divider />
-          <Stack gap={1}>
-            <Typography variant="body2">
-              <strong>Location:</strong> London, UK
+    <Box sx={{ width: "100%" }}>
+      {/* Write button + stats row */}
+      <Stack direction="row" gap={3} alignItems="center" mb={0}>
+        {isOwn && (
+          <Button
+            variant="contained"
+            size="small"
+            href="/write"
+            startIcon={<AddIcon />}
+            sx={{ alignSelf: "flex-start" }}
+          >
+            Write
+          </Button>
+        )}
+        <Stack direction="row" gap={4}>
+          <Stack direction="column" gap={0.25} alignItems="center">
+            <Typography variant="h6" fontWeight={700}>
+              {isLoading ? "—" : works.length}
             </Typography>
-            <Typography variant="body2">
-              <strong>Member since:</strong> January 2023
-            </Typography>
-            <Typography variant="body2">
-              <strong>Genres:</strong> Science Fiction, Mystery, Literary Fiction
-            </Typography>
-            <Typography variant="body2">
-              <strong>Website:</strong> authorname.com
+            <Typography variant="caption" color="text.secondary">
+              Works
             </Typography>
           </Stack>
         </Stack>
-      </TabPanel>
-    </Container>
+      </Stack>
+
+      <Container maxWidth="md" disableGutters sx={{ mt: 3 }}>
+        <Divider />
+        <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mt: 0 }}>
+          <Tab label="Works" />
+          <Tab label="About" />
+        </Tabs>
+
+        {/* Works */}
+        <TabPanel value={tab} index={0}>
+          {isLoading ? (
+            <Typography color="text.secondary" variant="body2">Loading…</Typography>
+          ) : works.length === 0 ? (
+            <Stack alignItems="center" py={6} gap={2}>
+              <Typography color="text.secondary">
+                {isOwn ? "You haven't written anything yet." : "No published works yet."}
+              </Typography>
+              {isOwn && (
+                <Button variant="contained" href="/write" startIcon={<AddIcon />}>
+                  Start writing
+                </Button>
+              )}
+            </Stack>
+          ) : (
+            <>
+              <Box sx={{ display: { xs: "none", sm: "flex" }, flexWrap: "wrap", gap: 2 }}>
+                {works.map((creative) => (
+                  <Box key={creative.id} sx={{ position: "relative" }}>
+                    {isOwn && creative.published === 0 && (
+                      <Chip
+                        label="Draft"
+                        size="small"
+                        sx={{ position: "absolute", top: 8, left: 8, zIndex: 1, fontSize: "0.65rem" }}
+                      />
+                    )}
+                    <CreativeCard
+                      slug={creative.slug}
+                      title={creative.title}
+                      author={userName ?? userSlug}
+                      genre={creative.genre ?? ""}
+                      cover={creative.coverImage ?? ""}
+                      description={creative.description ?? undefined}
+                      variant="card"
+                    />
+                  </Box>
+                ))}
+              </Box>
+              <Stack sx={{ display: { xs: "flex", sm: "none" } }} gap={0} divider={<Divider />}>
+                {works.map((creative) => (
+                  <CreativeCard
+                    key={creative.id}
+                    slug={creative.slug}
+                    title={creative.title}
+                    author={userName ?? userSlug}
+                    genre={creative.genre ?? ""}
+                    cover={creative.coverImage ?? ""}
+                    description={creative.description ?? undefined}
+                    variant="list"
+                  />
+                ))}
+              </Stack>
+            </>
+          )}
+        </TabPanel>
+
+        {/* About */}
+        <TabPanel value={tab} index={1}>
+          <Stack gap={2}>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+              {userName ?? userSlug} is a writer on Aura.
+            </Typography>
+            <Divider />
+            <Stack gap={1}>
+              {memberYear && (
+                <Typography variant="body2">
+                  <strong>Member since:</strong> {memberYear}
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+        </TabPanel>
+      </Container>
+    </Box>
   );
-}
+};

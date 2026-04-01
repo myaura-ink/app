@@ -58,7 +58,7 @@ export const CreativeCard = ({
             }}
           >
             <Image
-              src={cover}
+              src={cover || "https://picsum.photos/200/300?grayscale&random=1"}
               alt={title}
               width={100}
               height={140}

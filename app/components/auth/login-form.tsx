@@ -2,7 +2,7 @@
 
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useSupabase } from "@/app/hooks/useSupabase";
+import { useAuth } from "@/app/hooks/useAuth";
 
 interface LoginData {
   email: string;
@@ -10,49 +10,23 @@ interface LoginData {
 }
 
 export const LoginForm = () => {
-  const supabase = useSupabase();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<LoginData>({
-    email: "",
-    password: "",
-  });
+  const { login } = useAuth();
+  const [formData, setFormData] = useState<LoginData>({ email: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-      if (error) throw error;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    login.mutate(formData);
   };
 
   return (
     <Stack spacing={3}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          component="h1"
-          sx={{
-            fontWeight: 600,
-            mb: 1,
-            color: "primary.main",
-          }}
-        >
+        <Typography variant="h5" component="h1" sx={{ fontWeight: 600, mb: 1, color: "primary.main" }}>
           Welcome Back
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -89,16 +63,10 @@ export const LoginForm = () => {
             variant="contained"
             size="large"
             type="submit"
-            disabled={loading}
-            sx={{
-              mt: 2,
-              py: 1.5,
-              fontWeight: 600,
-              textTransform: "none",
-              fontSize: "1rem",
-            }}
+            disabled={login.isPending}
+            sx={{ mt: 2, py: 1.5, fontWeight: 600, textTransform: "none", fontSize: "1rem" }}
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {login.isPending ? "Signing In..." : "Sign In"}
           </Button>
         </Stack>
       </form>

@@ -2,7 +2,7 @@
 
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useSupabase } from "@/app/hooks/useSupabase";
+import { useAuth } from "@/app/hooks/useAuth";
 
 interface RegisterData {
   name: string;
@@ -11,63 +11,23 @@ interface RegisterData {
 }
 
 export const RegisterForm = () => {
-  const supabase = useSupabase();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<RegisterData>({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const { register } = useAuth();
+  const [formData, setFormData] = useState<RegisterData>({ name: "", email: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const data = formData;
-      console.log("Registering account...");
-      console.log(data);
-      const user = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          data: {
-            name: data.name,
-          },
-        },
-      });
-      console.log(user.data.session);
-
-      if (user.error) {
-        throw user.error;
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Registration failed";
-      console.log(message);
-    } finally {
-      setLoading(false);
-    }
+    register.mutate(formData);
   };
 
   return (
     <Stack spacing={3}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          component="h1"
-          sx={{
-            fontWeight: 600,
-            mb: 1,
-            color: "primary.main",
-          }}
-        >
+        <Typography variant="h5" component="h1" sx={{ fontWeight: 600, mb: 1, color: "primary.main" }}>
           Create Account
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -115,16 +75,10 @@ export const RegisterForm = () => {
             variant="contained"
             size="large"
             type="submit"
-            disabled={loading}
-            sx={{
-              mt: 2,
-              py: 1.5,
-              fontWeight: 600,
-              textTransform: "none",
-              fontSize: "1rem",
-            }}
+            disabled={register.isPending}
+            sx={{ mt: 2, py: 1.5, fontWeight: 600, textTransform: "none", fontSize: "1rem" }}
           >
-            {loading ? "Creating Account..." : "Register"}
+            {register.isPending ? "Creating Account..." : "Register"}
           </Button>
         </Stack>
       </form>

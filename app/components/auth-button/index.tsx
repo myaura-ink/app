@@ -16,44 +16,36 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "@/app/contexts";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export const AuthButton = () => {
   const { user, signOut } = useAuth();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleOpen = (e: React.MouseEvent<HTMLElement>) =>
-    setAnchorEl(e.currentTarget);
+  const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   const handlePortfolio = () => {
     handleClose();
-    const username = user?.user_metadata?.username || user?.user_metadata?.name?.toLowerCase().replace(/\s+/g, "-") || "user";
-    router.push(`/portfolio/${username}`);
+    router.push(`/portfolio/${user.slug}`);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     handleClose();
-    await signOut();
+    signOut();
   };
 
   return (
     <Box>
       {user ? (
         <>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            onClick={handleOpen}
-            sx={{ cursor: "pointer" }}
-          >
+          <Stack direction="row" alignItems="center" spacing={1} onClick={handleOpen} sx={{ cursor: "pointer" }}>
             <IconButton size="small">
               <Person />
             </IconButton>
             <Typography variant="body2" sx={{ ml: 1 }}>
-              {user?.user_metadata?.name || "atul"}
+              {user.name ?? user.email}
             </Typography>
           </Stack>
           <Menu
