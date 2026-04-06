@@ -27,7 +27,7 @@ export const AuthButton = () => {
 
   const handlePortfolio = () => {
     handleClose();
-    router.push(`/portfolio/${user.slug}`);
+    router.push(`/portfolio/${user!.slug}`);
   };
 
   const handleLogout = () => {

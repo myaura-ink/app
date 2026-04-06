@@ -97,10 +97,7 @@ function DeleteChapterDialog({
   const deleteChapter = useDeleteChapter(creativeSlug);
 
   const handleDelete = () => {
-    deleteChapter.mutate(
-      { chapterSlug: chapter.slug },
-      { onSuccess: () => router.push(`/creative/${creativeSlug}`) },
-    );
+    deleteChapter.mutate({ chapterSlug: chapter.slug }, { onSuccess: () => router.push(`/creative/${creativeSlug}`) });
   };
 
   return (
@@ -111,11 +108,15 @@ function DeleteChapterDialog({
           <strong>&ldquo;{chapter.title}&rdquo;</strong> will be permanently deleted. This cannot be undone.
         </DialogContentText>
         {deleteChapter.isError && (
-          <Alert severity="error" sx={{ mt: 1.5 }}>{deleteChapter.error.message}</Alert>
+          <Alert severity="error" sx={{ mt: 1.5 }}>
+            {deleteChapter.error.message}
+          </Alert>
         )}
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
-        <Button size="small" color="inherit" onClick={onClose}>Cancel</Button>
+        <Button size="small" color="inherit" onClick={onClose}>
+          Cancel
+        </Button>
         <Button
           variant="contained"
           color="error"
@@ -163,17 +164,27 @@ function AuthorMenu({
       >
         <MenuItem
           dense
-          onClick={() => { setAnchor(null); setEditOpen(true); }}
+          onClick={() => {
+            setAnchor(null);
+            setEditOpen(true);
+          }}
         >
-          <ListItemIcon><EditOutlinedIcon fontSize="small" /></ListItemIcon>
+          <ListItemIcon>
+            <EditOutlinedIcon fontSize="small" />
+          </ListItemIcon>
           <ListItemText>Edit</ListItemText>
         </MenuItem>
         <MenuItem
           dense
-          onClick={() => { setAnchor(null); setDeleteOpen(true); }}
+          onClick={() => {
+            setAnchor(null);
+            setDeleteOpen(true);
+          }}
           sx={{ color: "error.main" }}
         >
-          <ListItemIcon><DeleteOutlineIcon fontSize="small" color="error" /></ListItemIcon>
+          <ListItemIcon>
+            <DeleteOutlineIcon fontSize="small" color="error" />
+          </ListItemIcon>
           <ListItemText>Delete</ListItemText>
         </MenuItem>
       </Menu>
@@ -296,7 +307,9 @@ export const ChapterPageClient = ({
   );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 64px)" } }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", height: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 64px)" } }}
+    >
       {/* Mobile toolbar */}
       <Box
         sx={{
@@ -327,7 +340,10 @@ export const ChapterPageClient = ({
           <AuthorMenu
             chapter={{ ...chapter, title: localTitle, content: localContent }}
             creativeSlug={slug}
-            onSaved={({ title, content }) => { setLocalTitle(title); setLocalContent(content ?? ""); }}
+            onSaved={({ title, content }) => {
+              setLocalTitle(title);
+              setLocalContent(content ?? "");
+            }}
           />
         )}
       </Box>
@@ -385,11 +401,20 @@ export const ChapterPageClient = ({
               <AuthorMenu
                 chapter={{ ...chapter, title: localTitle, content: localContent }}
                 creativeSlug={slug}
+                onSaved={() => {}}
               />
             )}
           </Box>
 
-          <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, pb: 4, maxWidth: "calc(45rem + 128px)", mx: "auto", width: "100%" }}>
+          <Box
+            sx={{
+              px: { xs: 2, sm: 4, md: 6, lg: 8 },
+              pb: 4,
+              maxWidth: "calc(45rem + 128px)",
+              mx: "auto",
+              width: "100%",
+            }}
+          >
             <Typography
               component="div"
               variant="body1"

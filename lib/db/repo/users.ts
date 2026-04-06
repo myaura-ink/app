@@ -6,7 +6,6 @@ export const getPortfolio = async (slug: string) => {
       id: true,
       slug: true,
       name: true,
-      description: true,
       image: true,
       createdAt: true,
     },

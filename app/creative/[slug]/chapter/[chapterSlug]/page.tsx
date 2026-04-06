@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { notFound } from "next/navigation";
 import { getChapterByCreativeSlugAndChapterSlug, getChaptersByCreativSlug, getCreativeBySlug } from "@/lib";
 import { ChapterPageClient } from "./client-wrapper";
 
@@ -13,7 +14,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
   ]);
 
   if (!creative || !chapter) {
-    return { status: 404 };
+    notFound();
   }
 
   const currentChapter = chapter;
@@ -26,7 +27,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
       <ChapterPageClient
         slug={slug}
         chapterSlug={chapterSlug}
-        book={creative}
+        book={{ slug: creative.slug!, title: creative.title! }}
         chapters={chapters}
         chapter={currentChapter}
         authorId={creative.author.id}

@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AuthButton } from "../auth-button";
 
-const NAV_LINKS = [
+const NAV_LINKS: { label: string; href: string }[] = [
   // { label: "Explore", href: "/explore" },
   // { label: "Bounties", href: "/bounty" },
 ];
