@@ -1,14 +1,9 @@
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
+import { SelectCreativeWithAuthor } from "@/lib";
 
-interface CreativeCardProps {
-  slug: string;
-  title: string;
-  author: string;
-  genre: string;
-  cover: string;
-  description?: string;
+interface CreativeCardProps extends SelectCreativeWithAuthor {
   size?: "md" | "lg";
   variant?: "card" | "list";
 }
@@ -23,7 +18,7 @@ export const CreativeCard = ({
   title,
   author,
   genre,
-  cover,
+  coverImage,
   size = "md",
   variant = "card",
 }: CreativeCardProps) => {
@@ -58,8 +53,8 @@ export const CreativeCard = ({
             }}
           >
             <Image
-              src={cover || "https://picsum.photos/200/300?grayscale&random=1"}
-              alt={title}
+              src={coverImage || "https://picsum.photos/200/300?grayscale&random=1"}
+              alt={title || "cover"}
               width={100}
               height={140}
               style={{
@@ -72,7 +67,7 @@ export const CreativeCard = ({
               {title}
             </Typography>
             <Typography variant="caption" color="text.secondary" noWrap>
-              {author}
+              {author?.name || "anonymous"}
             </Typography>
             <Chip label={genre} size="small" sx={{ alignSelf: "flex-start" }} />
           </Stack>
@@ -108,8 +103,8 @@ export const CreativeCard = ({
           }}
         >
           <Image
-            src={cover}
-            alt={title}
+            src={coverImage || "https://picsum.photos/200/300?grayscale&random=1"}
+            alt={title || "cover"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{
@@ -136,7 +131,7 @@ export const CreativeCard = ({
               {title}
             </Typography>
             <Typography variant="caption" color="text.secondary" noWrap>
-              {author}
+              {author?.name || "anonymous"}
             </Typography>
             <Chip label={genre} size="small" sx={{ mt: 0.25, alignSelf: "flex-start" }} />
           </Stack>

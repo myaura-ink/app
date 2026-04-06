@@ -2,9 +2,9 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import type { AuthUser } from "@/app/contexts";
 import { useAuthContext } from "@/app/contexts";
 import { useToast } from "@/app/contexts/toast";
-import type { AuthUser } from "@/app/contexts";
 
 interface LoginInput {
   email: string;

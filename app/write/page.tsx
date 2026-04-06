@@ -107,9 +107,6 @@ export default function WritePage() {
           )}
 
           <Stack direction="row" justifyContent="flex-end" gap={2} pt={1}>
-            <Button variant="outlined" size="large" href="javascript:history.back()" sx={{ px: 4 }}>
-              Cancel
-            </Button>
             <Button
               variant="contained"
               size="large"

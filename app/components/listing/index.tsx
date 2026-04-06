@@ -3,66 +3,8 @@
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import { useRef } from "react";
+import { SelectCreativeWithAuthor } from "@/lib";
 import { CreativeCard } from "../creative-card";
-
-const PICKS = [
-  {
-    slug: "the-last-algorithm",
-    title: "The Last Algorithm",
-    author: "Author Name",
-    genre: "Science Fiction",
-    cover: "https://picsum.photos/seed/book1/120/180",
-  },
-  {
-    slug: "shadows-of-the-forgotten",
-    title: "Shadows of the Forgotten",
-    author: "Author Name",
-    genre: "Mystery",
-    cover: "https://picsum.photos/seed/book2/120/180",
-  },
-  {
-    slug: "the-unnamed-coast",
-    title: "The Unnamed Coast",
-    author: "Laura Hart",
-    genre: "Literary Fiction",
-    cover: "https://picsum.photos/seed/pick3/120/180",
-  },
-  {
-    slug: "iron-meridian",
-    title: "Iron Meridian",
-    author: "Nathan Cross",
-    genre: "Fantasy",
-    cover: "https://picsum.photos/seed/pick4/120/180",
-  },
-  {
-    slug: "after-the-monsoon",
-    title: "After the Monsoon",
-    author: "Emma Sutton",
-    genre: "Romance",
-    cover: "https://picsum.photos/seed/pick5/120/180",
-  },
-  {
-    slug: "the-cartographer",
-    title: "The Cartographer",
-    author: "David Mercer",
-    genre: "Historical Fiction",
-    cover: "https://picsum.photos/seed/pick6/120/180",
-  },
-  {
-    slug: "static-silence",
-    title: "Static Silence",
-    author: "Anna Ross",
-    genre: "Thriller",
-    cover: "https://picsum.photos/seed/pick7/120/180",
-  },
-  {
-    slug: "roots-and-revolutions",
-    title: "Roots & Revolutions",
-    author: "Kate Barnes",
-    genre: "Non-fiction",
-    cover: "https://picsum.photos/seed/pick8/120/180",
-  },
-];
 
 const SCROLL_AMOUNT = 640;
 
@@ -70,9 +12,10 @@ interface ListingProps {
   overline?: string;
   title: string;
   description: string;
+  creatives?: SelectCreativeWithAuthor[];
 }
 
-export const Listing = ({ overline = "Curated for you", title, description }: ListingProps) => {
+export const Listing = ({ overline = "Curated for you", title, description, creatives }: ListingProps) => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -135,11 +78,12 @@ export const Listing = ({ overline = "Curated for you", title, description }: Li
             scrollbarWidth: "none",
           }}
         >
-          {PICKS.map((book) => (
-            <Box key={book.slug} sx={{ scrollSnapAlign: "start" }}>
-              <CreativeCard {...book} />
-            </Box>
-          ))}
+          {creatives &&
+            creatives.map((book) => (
+              <Box key={book.slug} sx={{ scrollSnapAlign: "start" }}>
+                <CreativeCard {...book} />
+              </Box>
+            ))}
         </Box>
       </Container>
     </Box>

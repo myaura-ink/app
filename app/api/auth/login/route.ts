@@ -1,10 +1,12 @@
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { db, users } from "@/lib";
-import { signToken } from "@/lib/auth";
+import { setAuthCookies, signToken } from "@/lib/auth";
 import { matchPassword } from "@/lib/auth/password";
 
 export async function POST(request: NextRequest) {
+  const cookieStore = await cookies();
   const { email, password } = await request.json();
 
   const result = await db.select().from(users).where(eq(users.email, email));
@@ -39,5 +41,7 @@ export async function POST(request: NextRequest) {
     createdAt: existing.createdAt,
     updatedAt: existing.updatedAt,
   };
+
+  setAuthCookies(cookieStore, token);
   return NextResponse.json({ user, token });
 }

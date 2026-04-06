@@ -18,19 +18,9 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { useState } from "react";
+import { SelectChapter } from "@/lib";
 
 const SIDEBAR_WIDTH = 272;
-
-interface ChapterData {
-  id: number;
-  slug: string;
-  title: string;
-}
-
-interface ChapterContent {
-  title: string;
-  body: string[];
-}
 
 export const ChapterPageClient = ({
   slug,
@@ -44,10 +34,10 @@ export const ChapterPageClient = ({
   slug: string;
   chapterSlug: string;
   book: { slug: string; title: string };
-  chapters: ChapterData[];
-  chapter: ChapterContent;
-  prev: ChapterData | null;
-  next: ChapterData | null;
+  chapters: Partial<SelectChapter>[];
+  chapter: SelectChapter;
+  prev: Partial<SelectChapter> | null;
+  next: Partial<SelectChapter> | null;
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -101,7 +91,7 @@ export const ChapterPageClient = ({
                         variant="caption"
                         sx={{ color: isActive ? "rgba(255,255,255,0.6)" : "text.disabled", minWidth: 20 }}
                       >
-                        {ch.id}
+                        {ch.order}
                       </Typography>
                       <Typography variant="body2" fontWeight={isActive ? 600 : 400}>
                         {ch.title}
@@ -201,11 +191,14 @@ export const ChapterPageClient = ({
               {chapter.title}
             </Typography>
             <Stack gap={3}>
-              {chapter.body.map((paragraph, i) => (
-                <Typography key={i} variant="body1" color="text.primary" lineHeight={1.8} sx={{ textAlign: "justify" }}>
-                  {paragraph}
-                </Typography>
-              ))}
+              <Typography
+                component={"pre"}
+                variant="body1"
+                color="text.primary"
+                lineHeight={1.8}
+                sx={{ textAlign: "justify" }}
+                dangerouslySetInnerHTML={{ __html: chapter.content || "" }}
+              />
             </Stack>
           </Box>
 

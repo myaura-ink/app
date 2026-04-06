@@ -20,8 +20,8 @@ import { useState } from "react";
 import { AuthButton } from "../auth-button";
 
 const NAV_LINKS = [
-  { label: "Explore", href: "/explore" },
-  { label: "Bounties", href: "/bounty" },
+  // { label: "Explore", href: "/explore" },
+  // { label: "Bounties", href: "/bounty" },
 ];
 
 export const Header = () => {

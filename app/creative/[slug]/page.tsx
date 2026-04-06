@@ -1,43 +1,16 @@
 import { Box, Card, CardMedia, Chip, Container, Stack, Typography } from "@mui/material";
-import { and, asc, eq } from "drizzle-orm";
 import Image from "next/image";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
-import { chapters, creatives, db, users } from "@/lib";
+import { getChaptersByCreativSlug, getCreativeBySlug } from "@/lib";
 import { CreativePageClient } from "./client-wrapper";
 
 export default async function CreativePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const creative = await getCreativeBySlug(slug);
+  if (!creative) notFound();
 
-  const result = await db
-    .select({
-      id: creatives.id,
-      title: creatives.title,
-      slug: creatives.slug,
-      description: creatives.description,
-      coverImage: creatives.coverImage,
-      genre: creatives.genre,
-      published: creatives.published,
-      authorId: creatives.authorId,
-      createdAt: creatives.createdAt,
-      updatedAt: creatives.updatedAt,
-      authorName: users.name,
-      authorSlug: users.slug,
-    })
-    .from(creatives)
-    .leftJoin(users, eq(creatives.authorId, users.id))
-    .where(eq(creatives.slug, slug));
-
-  if (result.length === 0) notFound();
-
-  const creative = result[0];
-
-  const chapterRows = await db
-    .select()
-    .from(chapters)
-    .where(and(eq(chapters.creativeId, creative.id), eq(chapters.published, 1)))
-    .orderBy(asc(chapters.order));
-
+  const chapters = await getChaptersByCreativSlug(slug);
   const coverSrc = creative.coverImage || `https://picsum.photos/seed/${creative.slug}/800/500`;
 
   return (
@@ -61,7 +34,7 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
             >
               <Image
                 src={coverSrc}
-                alt={creative.title}
+                alt={creative.title || "Creative Cover"}
                 fill
                 sizes="(max-width: 600px) 120px, 160px"
                 style={{ objectFit: "cover" }}
@@ -82,21 +55,22 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
               by{" "}
-              <NextLink href={`/portfolio/${creative.authorSlug}`} style={{ textDecoration: "none", color: "inherit" }}>
+              <NextLink
+                href={`/portfolio/${creative.author.slug}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <Typography
                   component="span"
                   fontWeight={600}
                   color="primary"
                   sx={{ "&:hover": { textDecoration: "underline" } }}
                 >
-                  {creative.authorName ?? creative.authorSlug}
+                  {creative.author.name ?? creative.author.slug}
                 </Typography>
               </NextLink>
             </Typography>
             <Stack direction="row" gap={4} mt={1} justifyContent={{ xs: "center", sm: "flex-start" }} width="100%">
-              {[
-                { label: "Chapters", value: chapterRows.length },
-              ].map(({ label, value }) => (
+              {[{ label: "Chapters", value: chapters.length }].map(({ label, value }) => (
                 <Stack key={label} alignItems="center" gap={0.25}>
                   <Typography variant="h6" fontWeight={700}>
                     {value}
@@ -113,18 +87,9 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
 
       <CreativePageClient
         slug={slug}
-        authorId={creative.authorId}
+        authorId={creative.author.id}
         description={creative.description ?? ""}
-        initialChapters={chapterRows.map((ch) => ({
-          id: ch.id,
-          slug: ch.slug,
-          title: ch.title,
-          content: ch.content,
-          order: ch.order,
-          published: ch.published,
-          createdAt: ch.createdAt?.toISOString() ?? null,
-          updatedAt: ch.updatedAt.toISOString(),
-        }))}
+        initialChapters={chapters}
       />
     </Box>
   );

@@ -13,6 +13,7 @@ export const users = pgTable(
     image: text("image"),
     roles: roleEnum("roles").array().notNull().default(["user"]),
     lastSignedInAt: timestamp("last_signed_in_at").defaultNow(),
+    totalCreatives: integer("total_creatives").notNull().default(0),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at")
       .notNull()
@@ -36,6 +37,7 @@ export const creatives = pgTable(
     authorId: uuid("author_id")
       .notNull()
       .references(() => users.id),
+    totalChapters: integer("total_chapters").notNull().default(0),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at")
       .notNull()
@@ -80,3 +82,6 @@ export type InsertCreative = typeof creatives.$inferInsert;
 export type SelectCreative = typeof creatives.$inferSelect;
 export type InsertChapter = typeof chapters.$inferInsert;
 export type SelectChapter = typeof chapters.$inferSelect;
+export type SelectCreativeWithAuthor = Partial<SelectCreative> & {
+  author: { id: string; slug: string; name: string | null };
+};

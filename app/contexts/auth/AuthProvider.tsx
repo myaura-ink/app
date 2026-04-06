@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { type AuthUser, AuthContext } from "./AuthContext";
+import { AuthContext, type AuthUser } from "./AuthContext";
 
 const TOKEN_KEY = "auth_token";
 const USER_KEY = "auth_user";
@@ -33,9 +33,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem(USER_KEY);
   };
 
-  return (
-    <AuthContext.Provider value={{ user, token, setAuth, clearAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, token, setAuth, clearAuth }}>{children}</AuthContext.Provider>;
 }

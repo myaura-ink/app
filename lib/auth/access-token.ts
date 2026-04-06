@@ -27,3 +27,12 @@ export const verifyToken = async (token: string): Promise<TokenPayload> => {
   const { payload } = await jwtVerify(token, getSecret());
   return payload as unknown as TokenPayload;
 };
+
+export const getUserIdFromToken = async (token: string): Promise<string | null> => {
+  try {
+    const payload = await verifyToken(token);
+    return payload.id;
+  } catch {
+    return null;
+  }
+};

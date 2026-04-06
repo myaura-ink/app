@@ -24,26 +24,17 @@ import { useRef, useState } from "react";
 import { TabPanel } from "@/app/components";
 import { useAuthContext } from "@/app/contexts";
 import { useCreateChapter } from "@/app/hooks/useCreatives";
-
-interface Chapter {
-  id: string;
-  slug: string;
-  title: string;
-  content: string | null;
-  order: number;
-  published: number;
-  createdAt: string | null;
-  updatedAt: string;
-}
+import { formatDate } from "@/app/utils";
+import { SelectChapter } from "@/lib";
 
 interface Props {
   slug: string;
   authorId: string;
   description: string;
-  initialChapters: Chapter[];
+  initialChapters: Partial<SelectChapter>[];
 }
 
-function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: Chapter) => void }) {
+function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: SelectChapter) => void }) {
   const createChapter = useCreateChapter(slug);
   const editorRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState("");
@@ -61,9 +52,9 @@ function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: Chapter) =
         onSuccess: (ch) => {
           setTitle("");
           if (editorRef.current) editorRef.current.innerHTML = "";
-          onSaved(ch as unknown as Chapter);
+          onSaved(ch as unknown as SelectChapter);
         },
-      }
+      },
     );
   };
 
@@ -80,7 +71,14 @@ function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: Chapter) =
         bgcolor: "background.default",
       }}
     >
-      <Typography variant="overline" color="secondary.main" fontWeight={600} letterSpacing="0.12em" mb={2} display="block">
+      <Typography
+        variant="overline"
+        color="secondary.main"
+        fontWeight={600}
+        letterSpacing="0.12em"
+        mb={2}
+        display="block"
+      >
         New Chapter
       </Typography>
 
@@ -155,9 +153,7 @@ function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: Chapter) =
           />
         </Box>
 
-        {createChapter.isError && (
-          <Alert severity="error">{createChapter.error.message}</Alert>
-        )}
+        {createChapter.isError && <Alert severity="error">{createChapter.error.message}</Alert>}
 
         <Stack direction="row" gap={1.5} justifyContent="flex-end">
           <Button
@@ -184,12 +180,12 @@ function ChapterForm({ slug, onSaved }: { slug: string; onSaved: (ch: Chapter) =
 
 export const CreativePageClient = ({ slug, authorId, description, initialChapters }: Props) => {
   const [tab, setTab] = useState(0);
-  const [chapters, setChapters] = useState<Chapter[]>(initialChapters);
+  const [chapters, setChapters] = useState<Partial<SelectChapter>[]>(initialChapters);
   const [showForm, setShowForm] = useState(false);
   const { user } = useAuthContext();
   const isAuthor = user?.id === authorId;
 
-  const handleChapterSaved = (ch: Chapter) => {
+  const handleChapterSaved = (ch: Partial<SelectChapter>) => {
     setChapters((prev) => [...prev, ch]);
     setShowForm(false);
   };
@@ -265,21 +261,18 @@ export const CreativePageClient = ({ slug, authorId, description, initialChapter
                         </Typography>
                       )}
                     </Stack>
-                    {ch.content && (
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                          overflow: "hidden",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: ch.content.replace(/<[^>]+>/g, " ").slice(0, 160),
-                        }}
-                      />
-                    )}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        overflow: "hidden",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {ch.updatedAt ? `updated on ${formatDate(ch.updatedAt)}` : "No updates yet."}
+                    </Typography>
                   </Stack>
                 </Box>
               ))}
