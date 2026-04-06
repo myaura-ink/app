@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getChaptersByCreativSlug, getCreativeBySlug } from "@/lib";
 import { CreativePageClient } from "./client-wrapper";
+import { SaveButton } from "./save-button";
 
 export default async function CreativePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -15,18 +16,27 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
 
   return (
     <Box component="main" sx={{ bgcolor: "background.paper", minHeight: "100vh" }}>
-      <Container maxWidth="md" sx={{ pt: 8, pb: 4 }}>
+      <Container maxWidth="md" sx={{ pt: { xs: 5, sm: 8 }, pb: 3 }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           gap={{ xs: 3, sm: 4 }}
           alignItems={{ xs: "center", sm: "flex-start" }}
         >
-          <Card sx={{ boxShadow: 0, border: "1px solid", borderColor: "divider", flexShrink: 0 }}>
+          {/* Cover */}
+          <Card
+            sx={{
+              boxShadow: 0,
+              border: "1px solid",
+              borderColor: "divider",
+              flexShrink: 0,
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
             <CardMedia
               sx={{
-                width: { xs: 120, sm: 160 },
-                height: { xs: 172, sm: 230 },
-                flexShrink: 0,
+                width: { xs: 110, sm: 148 },
+                height: { xs: 158, sm: 212 },
                 position: "relative",
                 display: "block",
                 overflow: "hidden",
@@ -36,31 +46,42 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
                 src={coverSrc}
                 alt={creative.title || "Creative Cover"}
                 fill
-                sizes="(max-width: 600px) 120px, 160px"
+                sizes="(max-width: 600px) 110px, 148px"
                 style={{ objectFit: "cover" }}
                 priority
               />
             </CardMedia>
           </Card>
 
+          {/* Info */}
           <Stack
-            gap={1.5}
+            gap={1.25}
             pt={{ xs: 0, sm: 1 }}
             alignItems={{ xs: "center", sm: "flex-start" }}
             width={{ xs: "100%", sm: "auto" }}
+            flex={1}
+            minWidth={0}
           >
-            {creative.genre && <Chip label={creative.genre} size="small" />}
-            <Typography variant="h4" fontWeight={700} lineHeight={1.2} textAlign={{ xs: "center", sm: "left" }}>
+            {creative.genre && (
+              <Chip label={creative.genre} size="small" sx={{ alignSelf: { xs: "center", sm: "flex-start" } }} />
+            )}
+
+            <Typography
+              variant="h5"
+              fontWeight={700}
+              lineHeight={1.25}
+              textAlign={{ xs: "center", sm: "left" }}
+              sx={{ wordBreak: "break-word" }}
+            >
               {creative.title}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
+
+            <Typography variant="body2" color="text.secondary" textAlign={{ xs: "center", sm: "left" }}>
               by{" "}
-              <NextLink
-                href={`/portfolio/${creative.author.slug}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
+              <NextLink href={`/portfolio/${creative.author.slug}`} style={{ textDecoration: "none" }}>
                 <Typography
                   component="span"
+                  variant="body2"
                   fontWeight={600}
                   color="primary"
                   sx={{ "&:hover": { textDecoration: "underline" } }}
@@ -69,18 +90,47 @@ export default async function CreativePage({ params }: { params: Promise<{ slug:
                 </Typography>
               </NextLink>
             </Typography>
-            <Stack direction="row" gap={4} mt={1} justifyContent={{ xs: "center", sm: "flex-start" }} width="100%">
-              {[{ label: "Chapters", value: chapters.length }].map(({ label, value }) => (
-                <Stack key={label} alignItems="center" gap={0.25}>
-                  <Typography variant="h6" fontWeight={700}>
-                    {value}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {label}
-                  </Typography>
-                </Stack>
-              ))}
+
+            {/* Stats + Save button row */}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent={{ xs: "center", sm: "flex-start" }}
+              gap={3}
+              mt={0.5}
+              width="100%"
+              flexWrap="wrap"
+            >
+              <Stack alignItems="center" gap={0.25}>
+                <Typography variant="subtitle1" fontWeight={700} lineHeight={1}>
+                  {chapters.length}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Chapters
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" gap={0.25}>
+                <Typography variant="subtitle1" fontWeight={700} lineHeight={1}>
+                  {creative.totalCritiques}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Critiques
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" gap={0.25}>
+                <Typography variant="subtitle1" fontWeight={700} lineHeight={1}>
+                  {creative.totalCountOfReadingListAdds}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Reading List Adds
+                </Typography>
+              </Stack>
             </Stack>
+
+            {/* Actions */}
+
+            {/* Save button lives right next to stats */}
+            <SaveButton slug={slug} />
           </Stack>
         </Stack>
       </Container>

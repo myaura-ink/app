@@ -1,5 +1,6 @@
 import { and, asc, eq } from "drizzle-orm";
 import { chapters, creatives, db, SelectChapter, SelectCreativeWithAuthor, users } from "..";
+import { totalmem } from "node:os";
 
 export const getChaptersByCreativSlug = async (creativeSlug: string): Promise<Partial<SelectChapter>[]> => {
   const result = await db
@@ -42,6 +43,8 @@ export const getCreativeBySlug = async (slug: string): Promise<SelectCreativeWit
       updatedAt: creatives.updatedAt,
       genre: creatives.genre,
       totalChapters: creatives.totalChapters,
+      totalCritiques: creatives.totalCritiques,
+      totalCountOfReadingListAdds: creatives.totalCountOfReadingListAdds,
       author: {
         id: users.id,
         name: users.name,

@@ -1,12 +1,10 @@
 "use client";
 
-import { Person } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import {
   Box,
   Button,
-  IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -16,6 +14,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Avatar } from "@/app/components/avatar";
 import { useAuth } from "@/app/hooks/useAuth";
 
 export const AuthButton = () => {
@@ -40,11 +39,11 @@ export const AuthButton = () => {
     <Box>
       {user ? (
         <>
-          <Stack direction="row" alignItems="center" spacing={1} onClick={handleOpen} sx={{ cursor: "pointer" }}>
-            <IconButton size="small">
-              <Person />
-            </IconButton>
-            <Typography variant="body2" sx={{ ml: 1 }}>
+          <Stack direction="row" alignItems="center" gap={1} onClick={handleOpen} sx={{ cursor: "pointer" }}>
+            <Box sx={{ borderRadius: "50%", overflow: "hidden", width: 30, height: 30, flexShrink: 0 }}>
+              <Avatar slug={user.slug} size={30} />
+            </Box>
+            <Typography variant="body2">
               {user.name ?? user.email}
             </Typography>
           </Stack>

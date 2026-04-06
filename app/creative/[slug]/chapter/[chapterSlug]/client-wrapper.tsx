@@ -1,15 +1,28 @@
 "use client";
 
 import { ArrowBack, FormatListBulleted } from "@mui/icons-material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Alert,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Drawer,
   IconButton,
   List,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
   Stack,
   Tooltip,
   Typography,
@@ -17,10 +30,176 @@ import {
   useTheme,
 } from "@mui/material";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuthContext } from "@/app/contexts";
+import { useDeleteChapter, useEditChapter } from "@/app/hooks/useCreatives";
 import { SelectChapter } from "@/lib";
+import { FullPageEditor } from "../../full-page-editor";
 
 const SIDEBAR_WIDTH = 272;
+
+// ─── Edit Chapter (full-page) ───────────────────────────────────────────────
+
+function EditChapterEditor({
+  open,
+  chapter,
+  creativeSlug,
+  onClose,
+  onSaved,
+}: {
+  open: boolean;
+  chapter: SelectChapter;
+  creativeSlug: string;
+  onClose: () => void;
+  onSaved: (updated: Pick<SelectChapter, "title" | "content">) => void;
+}) {
+  const editChapter = useEditChapter(creativeSlug, chapter.slug);
+
+  return (
+    <FullPageEditor
+      open={open}
+      mode="edit"
+      initialTitle={chapter.title}
+      initialContent={chapter.content ?? ""}
+      isSaving={editChapter.isPending}
+      error={editChapter.isError ? editChapter.error.message : null}
+      onCancel={onClose}
+      onSave={({ title, content }) => {
+        editChapter.mutate(
+          { title, content },
+          {
+            onSuccess: () => {
+              onSaved({ title, content });
+              onClose();
+            },
+          },
+        );
+      }}
+    />
+  );
+}
+
+// ─── Delete Chapter Dialog ──────────────────────────────────────────────────
+
+function DeleteChapterDialog({
+  open,
+  chapter,
+  creativeSlug,
+  onClose,
+}: {
+  open: boolean;
+  chapter: SelectChapter;
+  creativeSlug: string;
+  onClose: () => void;
+}) {
+  const router = useRouter();
+  const deleteChapter = useDeleteChapter(creativeSlug);
+
+  const handleDelete = () => {
+    deleteChapter.mutate(
+      { chapterSlug: chapter.slug },
+      { onSuccess: () => router.push(`/creative/${creativeSlug}`) },
+    );
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>Delete Chapter?</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <strong>&ldquo;{chapter.title}&rdquo;</strong> will be permanently deleted. This cannot be undone.
+        </DialogContentText>
+        {deleteChapter.isError && (
+          <Alert severity="error" sx={{ mt: 1.5 }}>{deleteChapter.error.message}</Alert>
+        )}
+      </DialogContent>
+      <DialogActions sx={{ px: 3, pb: 2 }}>
+        <Button size="small" color="inherit" onClick={onClose}>Cancel</Button>
+        <Button
+          variant="contained"
+          color="error"
+          size="small"
+          onClick={handleDelete}
+          disabled={deleteChapter.isPending}
+        >
+          {deleteChapter.isPending ? "Deleting…" : "Delete"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+// ─── Author Menu ────────────────────────────────────────────────────────────
+
+function AuthorMenu({
+  chapter,
+  creativeSlug,
+  onSaved,
+}: {
+  chapter: SelectChapter;
+  creativeSlug: string;
+  onSaved: (updated: Pick<SelectChapter, "title" | "content">) => void;
+}) {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  return (
+    <>
+      <Tooltip title="Chapter options">
+        <IconButton size="small" onClick={(e) => setAnchor(e.currentTarget)}>
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Menu
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        onClose={() => setAnchor(null)}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        slotProps={{ paper: { sx: { minWidth: 160 } } }}
+      >
+        <MenuItem
+          dense
+          onClick={() => { setAnchor(null); setEditOpen(true); }}
+        >
+          <ListItemIcon><EditOutlinedIcon fontSize="small" /></ListItemIcon>
+          <ListItemText>Edit</ListItemText>
+        </MenuItem>
+        <MenuItem
+          dense
+          onClick={() => { setAnchor(null); setDeleteOpen(true); }}
+          sx={{ color: "error.main" }}
+        >
+          <ListItemIcon><DeleteOutlineIcon fontSize="small" color="error" /></ListItemIcon>
+          <ListItemText>Delete</ListItemText>
+        </MenuItem>
+      </Menu>
+
+      {editOpen && (
+        <EditChapterEditor
+          open={editOpen}
+          chapter={chapter}
+          creativeSlug={creativeSlug}
+          onClose={() => setEditOpen(false)}
+          onSaved={onSaved}
+        />
+      )}
+      {deleteOpen && (
+        <DeleteChapterDialog
+          open={deleteOpen}
+          chapter={chapter}
+          creativeSlug={creativeSlug}
+          onClose={() => setDeleteOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
+// ─── Main Export ─────────────────────────────────────────────────────────────
 
 export const ChapterPageClient = ({
   slug,
@@ -28,6 +207,7 @@ export const ChapterPageClient = ({
   book,
   chapters,
   chapter,
+  authorId,
   prev,
   next,
 }: {
@@ -36,12 +216,19 @@ export const ChapterPageClient = ({
   book: { slug: string; title: string };
   chapters: Partial<SelectChapter>[];
   chapter: SelectChapter;
+  authorId: string;
   prev: Partial<SelectChapter> | null;
   next: Partial<SelectChapter> | null;
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useAuthContext();
+  const isAuthor = user?.id === authorId;
+
+  // Track local title/content so edits reflect immediately without reload
+  const [localTitle, setLocalTitle] = useState(chapter.title);
+  const [localContent, setLocalContent] = useState(chapter.content ?? "");
 
   const sidebarContent = (
     <Box sx={{ width: SIDEBAR_WIDTH, display: "flex", flexDirection: "column", height: "100%" }}>
@@ -109,10 +296,8 @@ export const ChapterPageClient = ({
   );
 
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column", height: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 64px)" } }}
-    >
-      {/* Reader toolbar */}
+    <Box sx={{ display: "flex", flexDirection: "column", height: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 64px)" } }}>
+      {/* Mobile toolbar */}
       <Box
         sx={{
           flexShrink: 0,
@@ -122,6 +307,7 @@ export const ChapterPageClient = ({
           py: 1,
           borderBottom: "1px solid",
           borderColor: "divider",
+          gap: 1,
         }}
       >
         <IconButton component={NextLink} href={`/creative/${slug}`} size="small">
@@ -130,17 +316,24 @@ export const ChapterPageClient = ({
         <Typography
           variant="body2"
           fontWeight={600}
-          sx={{ flex: 1, ml: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+          sx={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
         >
-          {chapter.title}
+          {localTitle}
         </Typography>
-        <IconButton onClick={() => setSidebarOpen(true)} sx={{ display: { md: "none" } }}>
+        <IconButton onClick={() => setSidebarOpen(true)}>
           <FormatListBulleted fontSize="small" />
         </IconButton>
+        {isAuthor && (
+          <AuthorMenu
+            chapter={{ ...chapter, title: localTitle, content: localContent }}
+            creativeSlug={slug}
+            onSaved={({ title, content }) => { setLocalTitle(title); setLocalContent(content ?? ""); }}
+          />
+        )}
       </Box>
 
       {/* Main content */}
-      <Box sx={{ display: "flex", flex: 1 }}>
+      <Box sx={{ display: "flex", flex: 1, overflow: "hidden" }}>
         {/* Sidebar - Desktop */}
         <Box
           sx={{
@@ -170,40 +363,45 @@ export const ChapterPageClient = ({
         </Drawer>
 
         {/* Reading area */}
-        <Box
-          sx={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            overflowY: "auto",
-            px: { xs: 2, sm: 4 },
-            py: 4,
-          }}
-        >
-          <Box sx={{ maxWidth: "45rem", mx: "auto", width: "100%" }}>
-            <Typography
-              variant="h3"
-              fontWeight={700}
-              mb={4}
-              lineHeight={1.2}
-              sx={{ display: { xs: "none", md: "block" } }}
-            >
-              {chapter.title}
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflowY: "auto" }}>
+          {/* Desktop title + author menu bar */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              justifyContent: "space-between",
+              px: { md: 6, lg: 8 },
+              pt: 5,
+              pb: 1,
+              maxWidth: "calc(45rem + 128px)",
+              mx: "auto",
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4" fontWeight={700} lineHeight={1.2} sx={{ flex: 1 }}>
+              {localTitle}
             </Typography>
-            <Stack gap={3}>
-              <Typography
-                component={"pre"}
-                variant="body1"
-                color="text.primary"
-                lineHeight={1.8}
-                sx={{ textAlign: "justify" }}
-                dangerouslySetInnerHTML={{ __html: chapter.content || "" }}
+            {isAuthor && (
+              <AuthorMenu
+                chapter={{ ...chapter, title: localTitle, content: localContent }}
+                creativeSlug={slug}
               />
-            </Stack>
+            )}
           </Box>
 
-          {/* Navigation */}
-          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Box sx={{ px: { xs: 2, sm: 4, md: 6, lg: 8 }, pb: 4, maxWidth: "calc(45rem + 128px)", mx: "auto", width: "100%" }}>
+            <Typography
+              component="div"
+              variant="body1"
+              color="text.primary"
+              lineHeight={1.9}
+              sx={{ textAlign: "justify" }}
+              dangerouslySetInnerHTML={{ __html: localContent }}
+            />
+          </Box>
+
+          {/* Chapter navigation */}
+          <Divider sx={{ mt: "auto" }} />
           <Box
             sx={{
               display: "flex",
@@ -226,7 +424,7 @@ export const ChapterPageClient = ({
               <Box />
             )}
             <Typography variant="caption" color="text.disabled">
-              {(chapter as { title: string }).title || "?"}
+              {localTitle}
             </Typography>
             {next ? (
               <Tooltip title={next.title}>

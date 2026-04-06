@@ -29,6 +29,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
         book={creative}
         chapters={chapters}
         chapter={currentChapter}
+        authorId={creative.author.id}
         prev={prev}
         next={next}
       />

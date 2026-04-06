@@ -3,7 +3,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
-  Avatar,
   Box,
   Button,
   Chip,
@@ -20,7 +19,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { TabPanel } from "@/app/components";
+import { Avatar, TabPanel } from "@/app/components";
 
 interface Contributor {
   id: number;
@@ -119,9 +118,7 @@ export const BountyDetailClient = ({
               sx={{ py: 2.5 }}
             >
               <Stack direction="row" gap={1.5} alignItems="center">
-                <Avatar sx={{ width: 36, height: 36, fontSize: 13, bgcolor: "primary.main" }}>
-                  {c.avatar}
-                </Avatar>
+                <Avatar slug={c.avatar} size={36} />
                 <Stack gap={0}>
                   <Typography variant="subtitle2" fontWeight={600}>
                     {c.name}
@@ -152,9 +149,7 @@ export const BountyDetailClient = ({
               sx={{ py: 2.5 }}
             >
               <Stack direction="row" gap={1.5} alignItems="center">
-                <Avatar sx={{ width: 36, height: 36, fontSize: 13, bgcolor: "primary.light" }}>
-                  {u.avatar}
-                </Avatar>
+                <Avatar slug={u.avatar} size={36} />
                 <Typography variant="subtitle2" fontWeight={600}>
                   {u.name}
                 </Typography>
@@ -195,9 +190,7 @@ export const BountyDetailClient = ({
                   {/* Writer header */}
                   <Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap={2}>
                     <Stack direction="row" gap={1.5} alignItems="center" flex={1} minWidth={0}>
-                      <Avatar sx={{ width: 40, height: 40, fontSize: 14, bgcolor: "primary.main", flexShrink: 0 }}>
-                        {app.avatar}
-                      </Avatar>
+                      <Avatar slug={app.avatar} size={40} />
                       <Stack gap={0.25} minWidth={0}>
                         <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
                           <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>
@@ -338,9 +331,7 @@ export const BountyDetailClient = ({
               >
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                   <Stack direction="row" gap={2} alignItems="center" flex={1} minWidth={0}>
-                    <Avatar sx={{ width: 48, height: 48, fontSize: 16, bgcolor: "primary.main", flexShrink: 0 }}>
-                      {app.avatar}
-                    </Avatar>
+                    <Avatar slug={app.avatar} size={48} />
                     <Stack gap={0.25} minWidth={0}>
                       <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
                         <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>

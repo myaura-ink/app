@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Chip, Container, Divider, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Button, Chip, Container, Divider, Stack, Typography } from "@mui/material";
 import NextLink from "next/link";
-import { Footer } from "@/app/components";
+import { Avatar, Footer } from "@/app/components";
 import { BountyDetailClient } from "./client-wrapper";
 
 const BOUNTY = {
@@ -111,9 +111,7 @@ export default async function BountyDetailPage({ params }: { params: Promise<{ s
                 </Stack>
 
                 <Stack direction="row" gap={1} alignItems="center">
-                  <Avatar sx={{ width: 22, height: 22, fontSize: 10, bgcolor: "primary.main" }}>
-                    {BOUNTY.postedBy.avatar}
-                  </Avatar>
+                  <Avatar slug={BOUNTY.postedBy.name} size={22} />
                   <Typography variant="caption" color="text.secondary">
                     requested by{" "}
                     <Typography component="span" variant="caption" fontWeight={600} color="text.primary">

@@ -1,6 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Avatar, Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { notFound } from "next/navigation";
+import { Avatar } from "@/app/components";
 import { getUserFromCookie } from "@/app/hooks/getUserFromCookie";
 import { getCreativesByAuthorId, getPortfolio } from "@/lib";
 import { PortfolioPageClient } from "./client-wrapper";
@@ -14,13 +15,6 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
   const isOwn = user?.slug === slug;
   const isWriter = user?.roles.find((r) => r === "writer") !== undefined;
   const creatives = await getCreativesByAuthorId(portfolio.id, isOwn, -1);
-  const initials = (portfolio.name ?? portfolio.slug)
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
   return (
     <Box component="main" sx={{ bgcolor: "background.paper", minHeight: "100vh" }}>
       <Container maxWidth="md" sx={{ pt: 8, pb: 4 }}>
@@ -29,9 +23,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
           gap={{ xs: 3, sm: 4 }}
           alignItems={{ xs: "center", sm: "flex-start" }}
         >
-          <Avatar src={portfolio.image ?? undefined} sx={{ width: 96, height: 96, fontSize: 32, flexShrink: 0 }}>
-            {initials}
-          </Avatar>
+          <Avatar slug={portfolio.slug} size={96} />
           <Stack gap={1.5} pt={{ xs: 0, sm: 1 }} alignItems={{ xs: "center", sm: "flex-start" }} width="100%">
             <Stack gap={0} alignItems={{ xs: "center", sm: "flex-start" }}>
               <Typography variant="h4" fontWeight={700}>
