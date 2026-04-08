@@ -12,3 +12,7 @@ export const getAuthTokenFromCookies = (cookies: ReadonlyRequestCookies): string
   const token = cookies.get("_auth_token");
   return token ? token.value : null;
 };
+
+export const clearAuthCookies = (store: ReadonlyRequestCookies) => {
+  store.delete("_auth_token");
+};

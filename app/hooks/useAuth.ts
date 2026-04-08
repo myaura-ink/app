@@ -81,12 +81,20 @@ export const useAuth = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const signOut = () => {
-    clearAuth();
-    queryClient.clear();
-    toast.info("You've been signed out.");
-    router.push("/");
-  };
+  const logout = useMutation<void, Error>({
+    mutationFn: () =>
+      fetchJson("/api/auth/logout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    onSuccess: () => {
+      clearAuth();
+      queryClient.clear();
+      toast.info("You've been signed out.");
+      router.push("/");
+    },
+    onError: () => toast.error("Failed to log out. Please try again."),
+  });
 
-  return { login, register, profile, signOut, user, token };
+  return { login, register, profile, logout, user, token };
 };

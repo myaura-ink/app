@@ -110,7 +110,7 @@ export const useChapterContent = (creativeSlug: string, chapterSlug: string, ena
         headers: { Authorization: `Bearer ${token}` },
       }),
     enabled: enabled && !!token,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 };
 
@@ -127,7 +127,8 @@ export const useEditChapter = (creativeSlug: string, chapterSlug: string) => {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       }),
-    onSuccess: () => {
+    onSuccess: (updated) => {
+      queryClient.setQueryData(["chapter-content", creativeSlug, chapterSlug], updated);
       queryClient.invalidateQueries({ queryKey: ["creative", creativeSlug] });
       toast.success("Chapter updated.");
     },

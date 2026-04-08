@@ -1,6 +1,5 @@
 import { and, asc, eq } from "drizzle-orm";
 import { chapters, creatives, db, SelectChapter, SelectCreativeWithAuthor, users } from "..";
-import { totalmem } from "node:os";
 
 export const getChaptersByCreativSlug = async (creativeSlug: string): Promise<Partial<SelectChapter>[]> => {
   const result = await db
@@ -26,7 +25,7 @@ export const getChapterByCreativeSlugAndChapterSlug = async (
     .select()
     .from(chapters)
     .innerJoin(creatives, eq(chapters.creativeId, creatives.id))
-    .where(and(eq(creatives.slug, creativeSlug), eq(chapters.slug, chapterSlug), eq(chapters.published, 1)))
+    .where(and(eq(creatives.slug, creativeSlug), eq(chapters.slug, chapterSlug)))
     .orderBy(asc(chapters.order))
     .limit(1);
   return result[0].chapters;

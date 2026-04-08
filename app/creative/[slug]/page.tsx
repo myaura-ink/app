@@ -3,8 +3,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getChaptersByCreativSlug, getCreativeBySlug } from "@/lib";
+import { SaveButton } from "../../components/reading-list-button";
 import { CreativePageClient } from "./client-wrapper";
-import { SaveButton } from "./save-button";
 
 export default async function CreativePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

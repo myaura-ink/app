@@ -18,7 +18,7 @@ import { Avatar } from "@/app/components/avatar";
 import { useAuth } from "@/app/hooks/useAuth";
 
 export const AuthButton = () => {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -32,7 +32,7 @@ export const AuthButton = () => {
 
   const handleLogout = () => {
     handleClose();
-    signOut();
+    logout.mutate();
   };
 
   return (

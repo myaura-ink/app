@@ -1,9 +1,6 @@
 "use client";
 
 import CloseIcon from "@mui/icons-material/Close";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import {
   Alert,
   AppBar,
@@ -18,7 +15,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
+
+const MdEditor = dynamic(() => import("./md-editor-inner"), { ssr: false });
 
 interface FullPageEditorProps {
   open: boolean;
@@ -32,12 +32,6 @@ interface FullPageEditorProps {
   onSave: (data: { title: string; content: string; published?: boolean }) => void;
 }
 
-const FORMAT_TOOLS = [
-  { cmd: "bold", Icon: FormatBoldIcon, label: "Bold", shortcut: "⌘B" },
-  { cmd: "italic", Icon: FormatItalicIcon, label: "Italic", shortcut: "⌘I" },
-  { cmd: "underline", Icon: FormatUnderlinedIcon, label: "Underline", shortcut: "⌘U" },
-];
-
 export function FullPageEditor({
   open,
   mode,
@@ -50,45 +44,28 @@ export function FullPageEditor({
   onSave,
 }: FullPageEditorProps) {
   const [title, setTitle] = useState(initialTitle);
-  const [wordCount, setWordCount] = useState(0);
-  const editorRef = useRef<HTMLDivElement>(null);
+  const [content, setContent] = useState(initialContent);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  // Sync title when opened with new initialTitle
   useEffect(() => {
-    if (open) setTitle(initialTitle);
-  }, [open, initialTitle]);
+    setTitle(initialTitle);
+  }, [initialTitle]);
 
-  // Focus title on open
+  useEffect(() => {
+    setContent(initialContent);
+  }, [initialContent]);
+
   useEffect(() => {
     if (open && !contentLoading) {
       setTimeout(() => titleRef.current?.focus(), 80);
     }
   }, [open, contentLoading]);
 
-  const updateWordCount = useCallback(() => {
-    const text = editorRef.current?.innerText ?? "";
-    setWordCount(text.trim() === "" ? 0 : text.trim().split(/\s+/).length);
-  }, []);
-
-  const execFormat = (cmd: string) => {
-    document.execCommand(cmd, false);
-    editorRef.current?.focus();
-  };
-
-  const getContent = () => editorRef.current?.innerHTML ?? "";
+  const wordCount = content.trim() === "" ? 0 : content.trim().split(/\s+/).length;
 
   const handleSave = (published?: boolean) => {
     if (!title.trim()) return;
-    onSave({ title: title.trim(), content: getContent(), published });
-  };
-
-  // Tab key → insert two spaces instead of moving focus
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      document.execCommand("insertText", false, "  ");
-    }
+    onSave({ title: title.trim(), content, published });
   };
 
   return (
@@ -101,29 +78,14 @@ export function FullPageEditor({
           sx={{ bgcolor: "background.paper", borderBottom: "1px solid", borderColor: "divider" }}
         >
           <Toolbar sx={{ minHeight: { xs: 52, sm: 56 }, px: { xs: 1.5, sm: 2 }, gap: 1 }}>
-            {/* Left: close */}
             <Tooltip title="Discard and close">
               <IconButton size="small" onClick={onCancel} sx={{ color: "text.secondary" }}>
                 <CloseIcon fontSize="small" />
               </IconButton>
             </Tooltip>
 
-            {/* Centre: format tools */}
-            <Stack direction="row" flex={1} justifyContent="center" gap={0.5}>
-              {FORMAT_TOOLS.map(({ cmd, Icon, label, shortcut }) => (
-                <Tooltip key={cmd} title={`${label} ${shortcut}`} placement="bottom">
-                  <IconButton
-                    size="small"
-                    onMouseDown={(e) => { e.preventDefault(); execFormat(cmd); }}
-                    sx={{ color: "text.secondary", "&:hover": { color: "text.primary" } }}
-                  >
-                    <Icon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              ))}
-            </Stack>
+            <Box flex={1} />
 
-            {/* Right: save actions */}
             <Stack direction="row" gap={1} alignItems="center" flexShrink={0}>
               {mode === "create" ? (
                 <>
@@ -142,7 +104,7 @@ export function FullPageEditor({
                     onClick={() => handleSave(true)}
                     disabled={isSaving || !title.trim()}
                   >
-                    {isSaving ? <CircularProgress size={14} color="inherit" sx={{ mr: 1 }} /> : null}
+                    {isSaving && <CircularProgress size={14} color="inherit" sx={{ mr: 1 }} />}
                     Publish
                   </Button>
                 </>
@@ -153,7 +115,7 @@ export function FullPageEditor({
                   onClick={() => handleSave()}
                   disabled={isSaving || contentLoading || !title.trim()}
                 >
-                  {isSaving ? <CircularProgress size={14} color="inherit" sx={{ mr: 1 }} /> : null}
+                  {isSaving && <CircularProgress size={14} color="inherit" sx={{ mr: 1 }} />}
                   Save
                 </Button>
               )}
@@ -162,14 +124,19 @@ export function FullPageEditor({
         </AppBar>
 
         {/* ── Writing area ── */}
-        <Box sx={{ flex: 1, overflowY: "auto" }}>
+        <Box sx={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>
           <Box
             sx={{
-              maxWidth: "46rem",
+              maxWidth: "52rem",
               mx: "auto",
+              width: "100%",
               px: { xs: 2.5, sm: 5, md: 6 },
-              pt: { xs: 5, sm: 8 },
-              pb: 16,
+              pt: { xs: 4, sm: 6 },
+              pb: 10,
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
             }}
           >
             {/* Title */}
@@ -185,62 +152,23 @@ export function FullPageEditor({
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "text.primary",
-                mb: 3,
                 "& textarea": { padding: 0 },
                 "& textarea::placeholder": { color: "text.disabled", opacity: 1 },
               }}
             />
 
-            {/* Divider */}
-            <Box
-              sx={{
-                height: 1,
-                bgcolor: "divider",
-                mb: 4,
-                mx: "auto",
-                width: "3rem",
-                borderRadius: 1,
-              }}
-            />
-
-            {/* Content */}
+            {/* Editor */}
             {contentLoading ? (
               <Box display="flex" justifyContent="center" pt={8}>
                 <CircularProgress size={28} />
               </Box>
             ) : (
-              <Box
-                key={initialContent}
-                ref={editorRef}
-                contentEditable
-                suppressContentEditableWarning
-                dangerouslySetInnerHTML={{ __html: initialContent }}
-                data-placeholder="Begin writing…"
-                onInput={updateWordCount}
-                onKeyDown={handleKeyDown}
-                sx={{
-                  outline: "none",
-                  lineHeight: 1.95,
-                  fontSize: { xs: "1rem", sm: "1.0625rem" },
-                  fontFamily: "inherit",
-                  color: "text.primary",
-                  minHeight: "40vh",
-                  caretColor: "primary.main",
-                  "&:empty::before": {
-                    content: "attr(data-placeholder)",
-                    color: "text.disabled",
-                    pointerEvents: "none",
-                    fontStyle: "italic",
-                  },
-                }}
-              />
+              <Box data-color-mode="light" sx={{ flex: 1 }}>
+                <MdEditor value={content} onChange={setContent} />
+              </Box>
             )}
 
-            {error && (
-              <Alert severity="error" sx={{ mt: 4 }}>
-                {error}
-              </Alert>
-            )}
+            {error && <Alert severity="error">{error}</Alert>}
           </Box>
         </Box>
 
@@ -266,3 +194,5 @@ export function FullPageEditor({
     </Dialog>
   );
 }
+
+export { MarkdownViewer } from "./markdown-viewer";

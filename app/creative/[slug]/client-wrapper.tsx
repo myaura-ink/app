@@ -28,12 +28,12 @@ import {
   Tab,
   Tabs,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { Avatar, TabPanel } from "@/app/components";
+import { Avatar, FullPageEditor, TabPanel } from "@/app/components";
 import { useAuthContext } from "@/app/contexts";
 import {
   useAddCritique,
@@ -45,7 +45,6 @@ import {
 } from "@/app/hooks/useCreatives";
 import { formatDate } from "@/app/utils";
 import { SelectChapter } from "@/lib";
-import { FullPageEditor } from "./full-page-editor";
 
 interface Props {
   slug: string;
@@ -56,7 +55,17 @@ interface Props {
 
 // ─── Chapter Create (full-page) ─────────────────────────────────────────────
 
-function ChapterCreate({ slug, open, onSaved, onCancel }: { slug: string; open: boolean; onSaved: (ch: SelectChapter) => void; onCancel: () => void }) {
+function ChapterCreate({
+  slug,
+  open,
+  onSaved,
+  onCancel,
+}: {
+  slug: string;
+  open: boolean;
+  onSaved: (ch: SelectChapter) => void;
+  onCancel: () => void;
+}) {
   const createChapter = useCreateChapter(slug);
 
   return (
@@ -92,14 +101,10 @@ function ChapterEdit({
   onSaved: (updated: Partial<SelectChapter>) => void;
 }) {
   const editChapter = useEditChapter(creativeSlug, chapter.slug ?? "");
-  const { data: full, isLoading: contentLoading } = useChapterContent(
-    creativeSlug,
-    chapter.slug ?? "",
-    open,
-  );
-
+  const { data: full, isLoading: contentLoading } = useChapterContent(creativeSlug, chapter.slug ?? "", open);
   return (
     <FullPageEditor
+      key={chapter.slug}
       open={open}
       mode="edit"
       initialTitle={chapter.title ?? ""}
@@ -159,11 +164,23 @@ function DeleteChapterDialog({
         <DialogContentText>
           <strong>&ldquo;{chapter.title}&rdquo;</strong> will be permanently deleted. This cannot be undone.
         </DialogContentText>
-        {deleteChapter.isError && <Alert severity="error" sx={{ mt: 1.5 }}>{deleteChapter.error.message}</Alert>}
+        {deleteChapter.isError && (
+          <Alert severity="error" sx={{ mt: 1.5 }}>
+            {deleteChapter.error.message}
+          </Alert>
+        )}
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
-        <Button size="small" color="inherit" onClick={onClose}>Cancel</Button>
-        <Button variant="contained" color="error" size="small" onClick={handleDelete} disabled={deleteChapter.isPending}>
+        <Button size="small" color="inherit" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          size="small"
+          onClick={handleDelete}
+          disabled={deleteChapter.isPending}
+        >
           {deleteChapter.isPending ? "Deleting…" : "Delete"}
         </Button>
       </DialogActions>
@@ -230,9 +247,14 @@ function ChapterRow({
                 <Typography
                   variant="caption"
                   sx={{
-                    px: 0.75, py: 0.2, borderRadius: 0.5,
-                    bgcolor: "action.selected", color: "text.secondary",
-                    fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.04em",
+                    px: 0.75,
+                    py: 0.2,
+                    borderRadius: 0.5,
+                    bgcolor: "action.selected",
+                    color: "text.secondary",
+                    fontSize: "0.6rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.04em",
                     flexShrink: 0,
                   }}
                 >
@@ -253,7 +275,10 @@ function ChapterRow({
           <>
             <IconButton
               size="small"
-              onClick={(e) => { e.preventDefault(); setMenuAnchor(e.currentTarget); }}
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuAnchor(e.currentTarget);
+              }}
               sx={{ flexShrink: 0, color: "text.disabled", "&:hover": { color: "text.primary" } }}
             >
               <MoreVertIcon fontSize="small" />
@@ -267,18 +292,28 @@ function ChapterRow({
               slotProps={{ paper: { sx: { minWidth: 160 } } }}
             >
               <MenuItem
-                onClick={() => { setMenuAnchor(null); setEditOpen(true); }}
+                onClick={() => {
+                  setMenuAnchor(null);
+                  setEditOpen(true);
+                }}
                 dense
               >
-                <ListItemIcon><EditOutlinedIcon fontSize="small" /></ListItemIcon>
+                <ListItemIcon>
+                  <EditOutlinedIcon fontSize="small" />
+                </ListItemIcon>
                 <ListItemText>Edit</ListItemText>
               </MenuItem>
               <MenuItem
-                onClick={() => { setMenuAnchor(null); setDeleteOpen(true); }}
+                onClick={() => {
+                  setMenuAnchor(null);
+                  setDeleteOpen(true);
+                }}
                 dense
                 sx={{ color: "error.main" }}
               >
-                <ListItemIcon><DeleteOutlineIcon fontSize="small" color="error" /></ListItemIcon>
+                <ListItemIcon>
+                  <DeleteOutlineIcon fontSize="small" color="error" />
+                </ListItemIcon>
                 <ListItemText>Delete</ListItemText>
               </MenuItem>
             </Menu>
@@ -357,8 +392,23 @@ function CritiqueForm({ slug, onDone }: { slug: string; onDone: () => void }) {
   };
 
   return (
-    <Box sx={{ border: "1px solid", borderColor: "divider", borderRadius: 2, p: { xs: 2, sm: 2.5 }, bgcolor: "background.default" }}>
-      <Typography variant="overline" color="secondary.main" fontWeight={600} letterSpacing="0.12em" mb={2} display="block">
+    <Box
+      sx={{
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: 2,
+        p: { xs: 2, sm: 2.5 },
+        bgcolor: "background.default",
+      }}
+    >
+      <Typography
+        variant="overline"
+        color="secondary.main"
+        fontWeight={600}
+        letterSpacing="0.12em"
+        mb={2}
+        display="block"
+      >
         Your Critique
       </Typography>
       <Stack gap={2}>
@@ -433,7 +483,10 @@ function CritiquesPanel({ slug, authorId }: { slug: string; authorId: string }) 
 
         {!user && (
           <Typography variant="body2" color="text.secondary">
-            <NextLink href="/login" style={{ color: "inherit", fontWeight: 600 }}>Sign in</NextLink> to leave a critique.
+            <NextLink href="/login" style={{ color: "inherit", fontWeight: 600 }}>
+              Sign in
+            </NextLink>{" "}
+            to leave a critique.
           </Typography>
         )}
       </Stack>
@@ -496,7 +549,9 @@ function CritiquesPanel({ slug, authorId }: { slug: string; authorId: string }) 
 // ─── Main Export ─────────────────────────────────────────────────────────────
 
 export const CreativePageClient = ({ slug, authorId, description, initialChapters }: Props) => {
-  const [tab, setTab] = useState(0);
+  const searchParams = useSearchParams();
+  const isChapterTab = searchParams.get("tab") === "chapters";
+  const [tab, setTab] = useState(isChapterTab ? 1 : 0);
   const [chapters, setChapters] = useState<Partial<SelectChapter>[]>(initialChapters);
   const [showForm, setShowForm] = useState(false);
   const { user } = useAuthContext();
@@ -565,12 +620,7 @@ export const CreativePageClient = ({ slug, authorId, description, initialChapter
               onCancel={() => setShowForm(false)}
             />
             {!showForm && (
-              <Button
-                variant="outlined"
-                startIcon={<AddIcon />}
-                onClick={() => setShowForm(true)}
-                size="small"
-              >
+              <Button variant="outlined" startIcon={<AddIcon />} onClick={() => setShowForm(true)} size="small">
                 Add Chapter
               </Button>
             )}

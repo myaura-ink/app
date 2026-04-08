@@ -35,7 +35,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/app/contexts";
 import { useDeleteChapter, useEditChapter } from "@/app/hooks/useCreatives";
 import { SelectChapter } from "@/lib";
-import { FullPageEditor } from "../../full-page-editor";
+import { FullPageEditor, MarkdownViewer } from "../../../../components";
 
 const SIDEBAR_WIDTH = 272;
 
@@ -58,6 +58,7 @@ function EditChapterEditor({
 
   return (
     <FullPageEditor
+      key={chapter.slug}
       open={open}
       mode="edit"
       initialTitle={chapter.title}
@@ -248,7 +249,7 @@ export const ChapterPageClient = ({
           <Tooltip title="Back to creative">
             <IconButton
               component={NextLink}
-              href={`/creative/${slug}`}
+              href={`/creative/${slug}?tab=chapters`}
               size="small"
               sx={{ ml: -1, display: { xs: "none", md: "flex" } }}
             >
@@ -415,14 +416,7 @@ export const ChapterPageClient = ({
               width: "100%",
             }}
           >
-            <Typography
-              component="div"
-              variant="body1"
-              color="text.primary"
-              lineHeight={1.9}
-              sx={{ textAlign: "justify" }}
-              dangerouslySetInnerHTML={{ __html: localContent }}
-            />
+            <MarkdownViewer content={localContent} />
           </Box>
 
           {/* Chapter navigation */}
