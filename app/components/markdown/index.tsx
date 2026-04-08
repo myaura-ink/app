@@ -143,6 +143,7 @@ export function FullPageEditor({
             <InputBase
               inputRef={titleRef}
               value={title}
+              name="chapter-title"
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Chapter title…"
               multiline

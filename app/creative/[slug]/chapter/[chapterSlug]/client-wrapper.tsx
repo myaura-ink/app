@@ -409,6 +409,7 @@ export const ChapterPageClient = ({
 
           <Box
             sx={{
+              mt: 2,
               px: { xs: 2, sm: 4, md: 6, lg: 8 },
               pb: 4,
               maxWidth: "calc(45rem + 128px)",

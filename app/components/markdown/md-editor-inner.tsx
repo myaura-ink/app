@@ -25,17 +25,19 @@ interface Props {
   onChange: (val: string) => void;
 }
 
-const FONT = "var(--font-google-sans-flex, 'Google Sans Flex', Arial, sans-serif)";
-
 export default function MdEditorInner({ value, onChange }: Props) {
   return (
     <MDEditor
+      textareaProps={{
+        id: "editor",
+        name: "editor",
+      }}
       value={value}
       onChange={(val) => onChange(val ?? "")}
       preview="edit"
       visibleDragbar={false}
       commands={COMMANDS}
-      style={{ minHeight: "60vh", fontSize: "1.0625rem", fontFamily: FONT }}
+      style={{ minHeight: "70vh" }}
     />
   );
 }
