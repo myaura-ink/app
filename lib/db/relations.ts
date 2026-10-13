@@ -1,33 +1,34 @@
 import { relations } from "drizzle-orm/relations";
-import { chapters, creatives, critiques, readingList, users } from "./schema";
+import { chapters, critiques, library, stories, storyTags, tags, users } from "./schema";
 
-export const creativesRelations = relations(creatives, ({ one, many }) => ({
+export const storiesRelations = relations(stories, ({ one, many }) => ({
   user: one(users, {
-    fields: [creatives.authorId],
+    fields: [stories.authorId],
     references: [users.id],
   }),
   chapters: many(chapters),
   critiques: many(critiques),
-  readingList: many(readingList),
+  library: many(library),
+  storyTags: many(storyTags),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
-  creatives: many(creatives),
+  stories: many(stories),
   critiques: many(critiques),
-  readingList: many(readingList),
+  library: many(library),
 }));
 
 export const chaptersRelations = relations(chapters, ({ one }) => ({
-  creative: one(creatives, {
-    fields: [chapters.creativeId],
-    references: [creatives.id],
+  story: one(stories, {
+    fields: [chapters.storyId],
+    references: [stories.id],
   }),
 }));
 
 export const critiquesRelations = relations(critiques, ({ one }) => ({
-  creative: one(creatives, {
-    fields: [critiques.creativeId],
-    references: [creatives.id],
+  story: one(stories, {
+    fields: [critiques.storyId],
+    references: [stories.id],
   }),
   user: one(users, {
     fields: [critiques.userId],
@@ -35,13 +36,28 @@ export const critiquesRelations = relations(critiques, ({ one }) => ({
   }),
 }));
 
-export const readingListRelations = relations(readingList, ({ one }) => ({
+export const libraryRelations = relations(library, ({ one }) => ({
   user: one(users, {
-    fields: [readingList.userId],
+    fields: [library.userId],
     references: [users.id],
   }),
-  creative: one(creatives, {
-    fields: [readingList.creativeId],
-    references: [creatives.id],
+  story: one(stories, {
+    fields: [library.storyId],
+    references: [stories.id],
+  }),
+}));
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+  storyTags: many(storyTags),
+}));
+
+export const storyTagsRelations = relations(storyTags, ({ one }) => ({
+  story: one(stories, {
+    fields: [storyTags.storyId],
+    references: [stories.id],
+  }),
+  tag: one(tags, {
+    fields: [storyTags.tagId],
+    references: [tags.id],
   }),
 }));

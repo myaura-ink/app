@@ -1,6 +1,6 @@
 import { db } from "..";
 
-export const getPortfolio = async (slug: string) => {
+export const getProfile = async (slug: string) => {
   return db.query.users.findFirst({
     columns: {
       id: true,

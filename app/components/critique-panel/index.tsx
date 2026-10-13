@@ -6,12 +6,15 @@ import NextLink from "next/link";
 import { useState } from "react";
 import { Avatar, CritiqueForm, StarDisplay } from "@/app/components";
 import { useAuthContext } from "@/app/contexts";
-import { useCritiques } from "@/app/hooks/useCreatives";
+import { useCritiques } from "@/app/hooks/useStories";
 import { formatDate } from "@/app/utils";
 
 export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: string }) => {
   const { user } = useAuthContext();
-  const { data: critiques, isLoading } = useCritiques(slug);
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useCritiques(slug);
+  const critiques = data?.pages.flatMap((page) => page.items);
+  // the newest page carries the most up-to-date total
+  const total = data?.pages.at(-1)?.total ?? 0;
   const [showForm, setShowForm] = useState(false);
 
   const isAuthor = user?.id === authorId;
@@ -41,7 +44,7 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
             color: "text.secondary",
           }}
         >
-          {isLoading ? "" : `${critiques?.length ?? 0} critique${(critiques?.length ?? 0) !== 1 ? "s" : ""}`}
+          {isLoading ? "" : `${total} critique${total !== 1 ? "s" : ""}`}
         </Typography>
 
         {canCritique && !showForm && (
@@ -143,7 +146,7 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
                     flexWrap: "wrap",
                   }}
                 >
-                  <NextLink href={`/portfolio/${c.author.slug}`} style={{ textDecoration: "none" }}>
+                  <NextLink href={`/profile/${c.author.slug}`} style={{ textDecoration: "none" }}>
                     <Typography
                       variant="subtitle2"
                       sx={{
@@ -179,6 +182,19 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
               </Stack>
             </Stack>
           ))}
+          {hasNextPage && (
+            <Stack sx={{ alignItems: "center", py: 3 }}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                startIcon={isFetchingNextPage ? <CircularProgress size={14} color="inherit" /> : undefined}
+              >
+                {isFetchingNextPage ? "Loading..." : `Show more critiques (${total - (critiques?.length ?? 0)} more)`}
+              </Button>
+            </Stack>
+          )}
         </Stack>
       )}
     </Stack>

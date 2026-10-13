@@ -15,6 +15,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useColorScheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,6 +46,7 @@ export function FullPageEditor({
 }: FullPageEditorProps) {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
+  const { colorScheme } = useColorScheme();
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -181,7 +183,7 @@ export function FullPageEditor({
                 <CircularProgress size={28} />
               </Box>
             ) : (
-              <Box data-color-mode="light" sx={{ flex: 1 }}>
+              <Box data-color-mode={colorScheme ?? "light"} sx={{ flex: 1 }}>
                 <MdEditor value={content} onChange={setContent} />
               </Box>
             )}

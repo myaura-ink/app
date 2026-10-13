@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f5f2;
-  --foreground: #2d4036;
-  --primary: #200caa;
+  --background: var(--mui-palette-background-default, #f8f6f1);
+  --foreground: var(--mui-palette-text-primary, #221f1a);
 }
 
 @theme inline {
@@ -28,14 +27,14 @@ body {
   box-shadow: none !important;
   border: none !important;
   outline: none !important;
-  background-color: #fafbf9 !important;
+  background-color: var(--mui-palette-background-paper) !important;
   font-family: var(--font-google-sans-flex), Arial, sans-serif !important;
-  color: #1b2621 !important;
+  color: var(--mui-palette-text-primary) !important;
 }
 
 .w-md-editor-toolbar {
-  background-color: #fafbf9 !important;
-  border-bottom: 1px solid #e0e4de !important;
+  background-color: var(--mui-palette-background-paper) !important;
+  border-bottom: 1px solid var(--mui-palette-divider) !important;
   border-top: none !important;
   padding: 4px 0 !important;
   position: sticky !important;
@@ -48,24 +47,24 @@ body {
 }
 
 .w-md-editor-toolbar li > button {
-  color: #54635c !important;
+  color: var(--mui-palette-text-secondary) !important;
   border-radius: 6px !important;
   height: 28px !important;
   width: 28px !important;
 }
 
 .w-md-editor-toolbar li > button:hover {
-  color: #1b2621 !important;
-  background-color: rgba(0, 0, 0, 0.06) !important;
+  color: var(--mui-palette-text-primary) !important;
+  background-color: var(--mui-palette-action-hover) !important;
 }
 
 .w-md-editor-toolbar li > button[data-active="true"] {
-  color: #4e6e5d !important;
-  background-color: rgba(78, 110, 93, 0.1) !important;
+  color: var(--mui-palette-primary-main) !important;
+  background-color: rgba(var(--mui-palette-primary-mainChannel) / 0.1) !important;
 }
 
 .w-md-editor-toolbar-divider {
-  background-color: #d8ddd5 !important;
+  background-color: var(--mui-palette-divider) !important;
   margin: 0 4px !important;
   height: 16px !important;
 }
@@ -74,7 +73,7 @@ body {
 .w-md-editor-text > .w-md-editor-text-pre > code {
   font-size: 1.2rem !important;
   line-height: 1.9 !important;
-  caret-color: #4e6e5d !important;
+  caret-color: var(--mui-palette-primary-main) !important;
 }
 
 body .w-md-editor-text-pre > code,
@@ -85,7 +84,7 @@ body .w-md-editor-text-input {
 }
 
 .w-md-editor-text-textarea::placeholder {
-  color: #9eada6 !important;
+  color: var(--mui-palette-text-disabled) !important;
   font-style: italic !important;
 }
 
@@ -103,7 +102,7 @@ body .w-md-editor-text-input {
 .md-prose {
   line-height: 1.9;
   font-size: 1rem;
-  color: #1b2621;
+  color: var(--mui-palette-text-primary);
 }
 
 .md-prose p {
@@ -156,23 +155,23 @@ body .w-md-editor-text-input {
 }
 
 .md-prose blockquote {
-  border-left: 3px solid #c8ad7f;
+  border-left: 3px solid var(--mui-palette-secondary-main);
   margin: 1.25em 0;
   padding: 0.25em 1em;
-  color: #54635c;
+  color: var(--mui-palette-text-secondary);
   font-style: italic;
 }
 
 .md-prose code {
   font-family: monospace;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--mui-palette-action-hover);
   padding: 0.1em 0.35em;
   border-radius: 3px;
   font-size: 0.9em;
 }
 
 .md-prose pre {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--mui-palette-action-hover);
   padding: 1em;
   border-radius: 6px;
   overflow-x: auto;
@@ -186,6 +185,56 @@ body .w-md-editor-text-input {
 
 .md-prose hr {
   border: none;
-  border-top: 1px solid #d8ddd5;
+  border-top: 1px solid var(--mui-palette-divider);
   margin: 2em 0;
+}
+
+/* ── Chapter reader ── */
+/* Reader preferences are applied as custom properties on .reader (see reader-settings.tsx). */
+.reader {
+  --reader-font: var(--font-literata), Georgia, serif;
+  --reader-size: 1.1875rem;
+  --reader-measure: 40rem;
+}
+
+.reader[data-font="sans"] {
+  --reader-font: var(--font-google-sans-flex), Arial, sans-serif;
+}
+
+.reader .md-prose {
+  font-family: var(--reader-font);
+  font-size: var(--reader-size);
+  line-height: 1.8;
+  text-wrap: pretty;
+  hyphens: auto;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.reader .md-prose p {
+  margin-bottom: 1.25em;
+}
+
+.reader .md-prose blockquote {
+  border-left-color: var(--mui-palette-secondary-main);
+}
+
+/* Sepia re-points MUI's palette variables, so everything inside the reader follows it. */
+.reader[data-tone="sepia"] {
+  --mui-palette-background-default: #f4ecd8;
+  --mui-palette-background-paper: #f8f1e0;
+  --mui-palette-text-primary: #3b2f1e;
+  --mui-palette-text-secondary: #6e5c44;
+  --mui-palette-text-disabled: #a08e72;
+  --mui-palette-divider: rgba(91, 70, 40, 0.16);
+  --mui-palette-action-hover: rgba(91, 70, 40, 0.07);
+}
+
+.dark .reader[data-tone="sepia"] {
+  --mui-palette-background-default: #221d16;
+  --mui-palette-background-paper: #29231b;
+  --mui-palette-text-primary: #e6d9c0;
+  --mui-palette-text-secondary: #b3a386;
+  --mui-palette-text-disabled: #7d6f58;
+  --mui-palette-divider: rgba(230, 217, 192, 0.14);
+  --mui-palette-action-hover: rgba(230, 217, 192, 0.07);
 }

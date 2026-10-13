@@ -1,5 +1,5 @@
 {
-  "id": "df3b5203-98fd-4a42-b156-31484043df8b",
+  "id": "9bf2d85a-6e05-4796-8e40-8776d787fcce",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -15,8 +15,8 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "creative_id": {
-          "name": "creative_id",
+        "story_id": {
+          "name": "story_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -45,6 +45,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "published": {
+          "name": "published",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -61,11 +68,11 @@
         }
       },
       "indexes": {
-        "chapters_creative_id_idx": {
-          "name": "chapters_creative_id_idx",
+        "chapters_story_id_idx": {
+          "name": "chapters_story_id_idx",
           "columns": [
             {
-              "expression": "creative_id",
+              "expression": "story_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -76,11 +83,11 @@
           "method": "btree",
           "with": {}
         },
-        "chapters_creative_id_order_idx": {
-          "name": "chapters_creative_id_order_idx",
+        "chapters_story_id_order_idx": {
+          "name": "chapters_story_id_order_idx",
           "columns": [
             {
-              "expression": "creative_id",
+              "expression": "story_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -99,13 +106,13 @@
         }
       },
       "foreignKeys": {
-        "chapters_creative_id_creatives_id_fk": {
-          "name": "chapters_creative_id_creatives_id_fk",
+        "chapters_story_id_stories_id_fk": {
+          "name": "chapters_story_id_stories_id_fk",
           "tableFrom": "chapters",
-          "tableTo": "creatives",
-          "columnsFrom": ["creative_id"],
+          "tableTo": "stories",
+          "columnsFrom": ["story_id"],
           "columnsTo": ["id"],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -115,8 +122,211 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.creatives": {
-      "name": "creatives",
+    "public.critiques": {
+      "name": "critiques",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "story_id": {
+          "name": "story_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rating": {
+          "name": "rating",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "critiques_story_id_idx": {
+          "name": "critiques_story_id_idx",
+          "columns": [
+            {
+              "expression": "story_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "critiques_user_id_idx": {
+          "name": "critiques_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "critiques_story_id_stories_id_fk": {
+          "name": "critiques_story_id_stories_id_fk",
+          "tableFrom": "critiques",
+          "tableTo": "stories",
+          "columnsFrom": ["story_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "critiques_user_id_users_id_fk": {
+          "name": "critiques_user_id_users_id_fk",
+          "tableFrom": "critiques",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.library": {
+      "name": "library",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "story_id": {
+          "name": "story_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "library_user_id_idx": {
+          "name": "library_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "library_story_id_idx": {
+          "name": "library_story_id_idx",
+          "columns": [
+            {
+              "expression": "story_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "library_user_id_users_id_fk": {
+          "name": "library_user_id_users_id_fk",
+          "tableFrom": "library",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "library_story_id_stories_id_fk": {
+          "name": "library_story_id_stories_id_fk",
+          "tableFrom": "library",
+          "tableTo": "stories",
+          "columnsFrom": ["story_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "library_user_story_unique": {
+          "name": "library_user_story_unique",
+          "nullsNotDistinct": false,
+          "columns": ["user_id", "story_id"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stories": {
+      "name": "stories",
       "schema": "",
       "columns": {
         "id": {
@@ -150,11 +360,45 @@
           "primaryKey": false,
           "notNull": false
         },
+        "genre": {
+          "name": "genre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published": {
+          "name": "published",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
         "author_id": {
           "name": "author_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "total_chapters": {
+          "name": "total_chapters",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "total_critiques": {
+          "name": "total_critiques",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "total_count_of_library_adds": {
+          "name": "total_count_of_library_adds",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -172,8 +416,8 @@
         }
       },
       "indexes": {
-        "creatives_author_id_idx": {
-          "name": "creatives_author_id_idx",
+        "stories_author_id_idx": {
+          "name": "stories_author_id_idx",
           "columns": [
             {
               "expression": "author_id",
@@ -187,8 +431,8 @@
           "method": "btree",
           "with": {}
         },
-        "creatives_slug_idx": {
-          "name": "creatives_slug_idx",
+        "stories_slug_idx": {
+          "name": "stories_slug_idx",
           "columns": [
             {
               "expression": "slug",
@@ -201,12 +445,27 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "stories_published_idx": {
+          "name": "stories_published_idx",
+          "columns": [
+            {
+              "expression": "published",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "creatives_author_id_users_id_fk": {
-          "name": "creatives_author_id_users_id_fk",
-          "tableFrom": "creatives",
+        "stories_author_id_users_id_fk": {
+          "name": "stories_author_id_users_id_fk",
+          "tableFrom": "stories",
           "tableTo": "users",
           "columnsFrom": ["author_id"],
           "columnsTo": ["id"],
@@ -216,8 +475,125 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "creatives_slug_unique": {
-          "name": "creatives_slug_unique",
+        "stories_slug_unique": {
+          "name": "stories_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": ["slug"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.story_tags": {
+      "name": "story_tags",
+      "schema": "",
+      "columns": {
+        "story_id": {
+          "name": "story_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tag_id": {
+          "name": "tag_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "story_tags_tag_id_idx": {
+          "name": "story_tags_tag_id_idx",
+          "columns": [
+            {
+              "expression": "tag_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "story_tags_story_id_stories_id_fk": {
+          "name": "story_tags_story_id_stories_id_fk",
+          "tableFrom": "story_tags",
+          "tableTo": "stories",
+          "columnsFrom": ["story_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "story_tags_tag_id_tags_id_fk": {
+          "name": "story_tags_tag_id_tags_id_fk",
+          "tableFrom": "story_tags",
+          "tableTo": "tags",
+          "columnsFrom": ["tag_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "story_tags_story_id_tag_id_pk": {
+          "name": "story_tags_story_id_tag_id_pk",
+          "columns": ["story_id", "tag_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tags": {
+      "name": "tags",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tags_slug_unique": {
+          "name": "tags_slug_unique",
           "nullsNotDistinct": false,
           "columns": ["slug"]
         }
@@ -243,11 +619,23 @@
           "primaryKey": false,
           "notNull": true
         },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "image": {
           "name": "image",
@@ -261,7 +649,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "default": "'{\"user\"}'"
+          "default": "'{\"user\",\"writer\"}'"
         },
         "last_signed_in_at": {
           "name": "last_signed_in_at",
@@ -269,6 +657,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+        },
+        "total_stories": {
+          "name": "total_stories",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -300,6 +695,21 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "users_slug_idx": {
+          "name": "users_slug_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
@@ -309,6 +719,11 @@
           "name": "users_email_unique",
           "nullsNotDistinct": false,
           "columns": ["email"]
+        },
+        "users_slug_unique": {
+          "name": "users_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": ["slug"]
         }
       },
       "policies": {},

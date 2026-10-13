@@ -1,22 +1,34 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, IconButton, Stack, Typography } from "@mui/material";
+import NextLink from "next/link";
 import { useRef } from "react";
-import { SelectCreativeWithAuthor } from "@/lib";
-import { CreativeCard } from "../creative-card";
+import { SelectStoryWithAuthor } from "@/lib";
+import type { NormalizedTag } from "@/lib/utils/tags";
+import { StoryCard } from "../story-card";
 
 const SCROLL_AMOUNT = 640;
+// covers visible before scrolling the row on a desktop screen
+const EAGER_COVER_COUNT = 6;
 
 interface ListingProps {
   id?: string;
   overline?: string;
   title: string;
   description: string;
-  creatives?: SelectCreativeWithAuthor[];
+  stories?: (SelectStoryWithAuthor & { tags?: NormalizedTag[] })[];
+  viewAllHref?: string;
 }
 
-export const Listing = ({ id, overline = "Curated for you", title, description, creatives }: ListingProps) => {
+export const Listing = ({
+  id,
+  overline = "Curated for you",
+  title,
+  description,
+  stories,
+  viewAllHref,
+}: ListingProps) => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -67,14 +79,20 @@ export const Listing = ({ id, overline = "Curated for you", title, description, 
               {description}
             </Typography>
           </Stack>
-          {!!creatives?.length && (
+          {!!stories?.length && (
             <Stack
               direction="row"
               sx={{
                 gap: 1,
                 pb: 0.5,
+                alignItems: "center",
               }}
             >
+              {viewAllHref && (
+                <Button component={NextLink} href={viewAllHref} size="small" sx={{ mr: 1, whiteSpace: "nowrap" }}>
+                  Browse all
+                </Button>
+              )}
               <IconButton
                 onClick={() => scroll("left")}
                 size="small"
@@ -110,20 +128,22 @@ export const Listing = ({ id, overline = "Curated for you", title, description, 
             gap: 2,
             overflowX: "auto",
             scrollSnapType: "x mandatory",
-            pb: 1,
+            // room for the cards' hover lift and shadow
+            pt: 1,
+            pb: 3,
             "&::-webkit-scrollbar": { display: "none" },
             msOverflowStyle: "none",
             scrollbarWidth: "none",
           }}
         >
-          {creatives?.length === 0 && (
+          {stories?.length === 0 && (
             <Typography sx={{ color: "text.secondary", py: 4 }}>
               No works published yet. Yours could be the first.
             </Typography>
           )}
-          {creatives?.map((book) => (
-            <Box key={book.slug} sx={{ scrollSnapAlign: "start" }}>
-              <CreativeCard {...book} />
+          {stories?.map((book, i) => (
+            <Box key={book.slug} sx={{ scrollSnapAlign: "start", display: "flex" }}>
+              <StoryCard {...book} eager={i < EAGER_COVER_COUNT} />
             </Box>
           ))}
         </Box>

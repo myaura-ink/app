@@ -1,9 +1,10 @@
 import { Box, Container, Divider, Link, Stack, Typography } from "@mui/material";
 import { config } from "@/app/config";
+import { ThemeToggle } from "../theme-toggle";
 
 export const Footer = () => {
   return (
-    <Box component="footer" sx={{ bgcolor: "background.default", pt: 6, pb: 8 }}>
+    <Box component="footer" sx={{ bgcolor: "background.default", mt: "auto", pt: 6, pb: 8 }}>
       <Container maxWidth="lg">
         <Divider sx={{ mb: 4 }} />
         <Stack
@@ -39,6 +40,7 @@ export const Footer = () => {
             sx={{
               gap: 1,
               alignItems: "center",
+              flexWrap: "wrap",
             }}
           >
             <Typography
@@ -87,6 +89,7 @@ export const Footer = () => {
                 aura
               </Link>
             </Typography>
+            <ThemeToggle />
           </Stack>
         </Stack>
       </Container>

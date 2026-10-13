@@ -36,3 +36,14 @@ export const getUserIdFromToken = async (token: string): Promise<string | null> 
     return null;
   }
 };
+
+// the signed-in user behind a request's bearer token, or null
+export const authenticateRequest = async (request: Request): Promise<TokenPayload | null> => {
+  const header = request.headers.get("authorization");
+  if (!header?.startsWith("Bearer ")) return null;
+  try {
+    return await verifyToken(header.slice(7));
+  } catch {
+    return null;
+  }
+};

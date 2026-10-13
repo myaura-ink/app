@@ -1,3 +1,4 @@
 export * from "./db";
-export * from "./repo";
+// schema before repo, so table objects exist before any repo module reads them
 export * from "./schema";
+export * from "./repo";

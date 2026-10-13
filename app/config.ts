@@ -8,4 +8,7 @@ export const config = {
     jwtSecret: process.env.JWT_SECRET,
     saltRounds: 10,
   },
+  cron: {
+    secret: process.env.CRON_SECRET,
+  },
 };

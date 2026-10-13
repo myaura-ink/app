@@ -46,7 +46,7 @@ export const useAuth = () => {
       setAuth(authedUser, newToken);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toast.success(`Welcome back, ${authedUser.name ?? authedUser.email}!`);
-      router.push(`/portfolio/${authedUser.slug}`);
+      router.push(`/profile/${authedUser.slug}`);
     },
     onError: (err) => toast.error(err.message),
   });
@@ -62,7 +62,7 @@ export const useAuth = () => {
       setAuth(authedUser, newToken);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toast.success("Account created! Welcome aboard.");
-      router.push(`/portfolio/${authedUser.slug}`);
+      router.push(`/profile/${authedUser.slug}`);
     },
     onError: (err) => toast.error(err.message),
   });

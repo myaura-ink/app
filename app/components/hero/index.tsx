@@ -11,7 +11,7 @@ export const Hero = ({ writeHref }: HeroProps) => {
       <Typography
         variant="overline"
         sx={{
-          color: "secondary.dark",
+          color: "secondary.main",
           fontWeight: 600,
           letterSpacing: "0.12em",
         }}

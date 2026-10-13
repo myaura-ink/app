@@ -1,6 +1,11 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { buildMetadata } from "@/app/utils";
+import { auth } from "@/content";
 import { DivePageClient } from "./client-wrapper";
+
+export const metadata: Metadata = buildMetadata({ ...auth, path: "/dive", noindex: true });
 
 export default function Dive() {
   return (
@@ -22,7 +27,7 @@ export default function Dive() {
             variant="h4"
             sx={{
               fontWeight: 800,
-              color: "primary.contrastText",
+              color: "common.white",
               letterSpacing: "-0.02em",
             }}
           >
@@ -50,7 +55,7 @@ export default function Dive() {
             sx={{
               fontWeight: 700,
               lineHeight: 1.2,
-              color: "primary.contrastText",
+              color: "common.white",
               letterSpacing: "-0.02em",
             }}
           >

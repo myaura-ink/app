@@ -4,7 +4,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Alert, Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useAddCritique } from "@/app/hooks/useCreatives";
+import { useAddCritique } from "@/app/hooks/useStories";
 
 function StarPicker({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);

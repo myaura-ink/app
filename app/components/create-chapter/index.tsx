@@ -1,5 +1,5 @@
 import { FullPageEditor } from "@/app/components";
-import { useCreateChapter } from "@/app/hooks/useCreatives";
+import { useCreateChapter } from "@/app/hooks/useStories";
 import { SelectChapter } from "@/lib";
 
 export const ChapterCreate = ({

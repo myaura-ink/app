@@ -24,8 +24,8 @@ const AudienceCard = ({ icon, overline, title, points, cta }: AudienceCardProps)
     }}
   >
     <Stack sx={{ gap: 1 }}>
-      <Box sx={{ color: "secondary.dark", display: "flex" }}>{icon}</Box>
-      <Typography variant="overline" sx={{ color: "secondary.dark", fontWeight: 600 }}>
+      <Box sx={{ color: "secondary.main", display: "flex" }}>{icon}</Box>
+      <Typography variant="overline" sx={{ color: "secondary.main", fontWeight: 600 }}>
         {overline}
       </Typography>
       <Typography variant="h4" sx={{ fontWeight: 700, color: "primary.main", lineHeight: 1.2 }}>
@@ -61,7 +61,7 @@ export const HowItWorks = ({ writeHref }: HowItWorksProps) => {
     <Box component="section" sx={{ py: 10, bgcolor: "background.default" }}>
       <Container maxWidth="lg">
         <Stack sx={{ gap: 1, mb: 5, maxWidth: 560 }}>
-          <Typography variant="overline" sx={{ color: "secondary.dark", fontWeight: 600 }}>
+          <Typography variant="overline" sx={{ color: "secondary.main", fontWeight: 600 }}>
             How it works
           </Typography>
           <Typography variant="h3" sx={{ fontWeight: 700, color: "primary.main", lineHeight: 1.2 }}>
@@ -84,8 +84,8 @@ export const HowItWorks = ({ writeHref }: HowItWorksProps) => {
                 body: "Keep chapters as drafts until they're ready, then publish when you are.",
               },
               {
-                title: "Build your portfolio",
-                body: "Every work you publish lives on your public portfolio for readers to find.",
+                title: "Build your profile",
+                body: "Every story you publish lives on your public profile for readers to find.",
               },
             ]}
             cta={{ label: "Start writing", href: writeHref }}
@@ -100,8 +100,8 @@ export const HowItWorks = ({ writeHref }: HowItWorksProps) => {
                 body: "Browse the latest works across genres, from fantasy to literary fiction.",
               },
               {
-                title: "Keep a reading list",
-                body: "Save the works you want to follow and come back to them anytime.",
+                title: "Build your library",
+                body: "Save the stories you want to follow and come back to them anytime.",
               },
               {
                 title: "Leave a critique",

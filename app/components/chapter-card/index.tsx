@@ -1,5 +1,7 @@
 "use client";
 
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,6 +9,7 @@ import {
   Alert,
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,30 +21,31 @@ import {
   Menu,
   MenuItem,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
 import { useState } from "react";
 import { FullPageEditor } from "@/app/components";
-import { useChapterContent, useDeleteChapter, useEditChapter } from "@/app/hooks/useCreatives";
+import { useChapterContent, useDeleteChapter, useEditChapter } from "@/app/hooks/useStories";
 import { formatDate } from "@/app/utils";
 import { SelectChapter } from "@/lib";
 
-function ChapterEdit({
+export function ChapterEdit({
   open,
   chapter,
-  creativeSlug,
+  storySlug,
   onClose,
   onSaved,
 }: {
   open: boolean;
   chapter: Partial<SelectChapter>;
-  creativeSlug: string;
+  storySlug: string;
   onClose: () => void;
   onSaved: (updated: Partial<SelectChapter>) => void;
 }) {
-  const editChapter = useEditChapter(creativeSlug, chapter.slug ?? "");
-  const { data: full, isLoading: contentLoading } = useChapterContent(creativeSlug, chapter.slug ?? "", open);
+  const editChapter = useEditChapter(storySlug, chapter.slug ?? "");
+  const { data: full, isLoading: contentLoading } = useChapterContent(storySlug, chapter.slug ?? "", open);
   return (
     <FullPageEditor
       key={chapter.slug}
@@ -73,17 +77,17 @@ function ChapterEdit({
 function DeleteChapterDialog({
   open,
   chapter,
-  creativeSlug,
+  storySlug,
   onClose,
   onDeleted,
 }: {
   open: boolean;
   chapter: Partial<SelectChapter>;
-  creativeSlug: string;
+  storySlug: string;
   onClose: () => void;
   onDeleted: (id: string) => void;
 }) {
-  const deleteChapter = useDeleteChapter(creativeSlug);
+  const deleteChapter = useDeleteChapter(storySlug);
 
   const handleDelete = () => {
     deleteChapter.mutate(
@@ -130,14 +134,20 @@ function DeleteChapterDialog({
 
 export const ChapterRow = ({
   chapter,
-  index,
+  number,
+  read = false,
+  lastRead = false,
   slug,
   isAuthor,
   onEdited,
   onDeleted,
 }: {
   chapter: Partial<SelectChapter>;
-  index: number;
+  number: number;
+  // the signed-in reader has opened this chapter
+  read?: boolean;
+  // where the reader left off in the story
+  lastRead?: boolean;
   slug: string;
   isAuthor: boolean;
   onEdited: (updated: Partial<SelectChapter>) => void;
@@ -159,6 +169,8 @@ export const ChapterRow = ({
           borderRadius: 1,
           transition: "background-color 0.15s",
           "&:hover": { bgcolor: "action.hover" },
+          // a slim bar marks where the reader left off
+          boxShadow: lastRead ? (theme) => `inset 3px 0 0 ${theme.palette.primary.main}` : undefined,
         }}
       >
         {/* Number */}
@@ -172,13 +184,13 @@ export const ChapterRow = ({
             userSelect: "none",
           }}
         >
-          {index + 1}
+          {number}
         </Typography>
 
         {/* Link area */}
         <Box
           component={NextLink}
-          href={`/creative/${slug}/chapter/${chapter.slug}`}
+          href={`/story/${slug}/chapter/${chapter.slug}`}
           sx={{ flex: 1, textDecoration: "none", color: "inherit", minWidth: 0 }}
         >
           <Stack
@@ -198,11 +210,23 @@ export const ChapterRow = ({
                 variant="subtitle2"
                 noWrap
                 sx={{
-                  fontWeight: 600,
+                  // read chapters step back so the unread ones stand out
+                  fontWeight: read ? 500 : 600,
+                  color: read ? "text.secondary" : "text.primary",
                 }}
               >
                 {chapter.title}
               </Typography>
+              {lastRead && (
+                <Chip
+                  icon={<BookmarkRoundedIcon />}
+                  label="Last read"
+                  size="small"
+                  color="primary"
+                  variant="outlined"
+                  sx={{ height: 20, fontSize: "0.65rem", fontWeight: 700, "& .MuiChip-icon": { fontSize: 13 } }}
+                />
+              )}
               {isAuthor && chapter.published === 0 && (
                 <Typography
                   variant="caption"
@@ -234,6 +258,15 @@ export const ChapterRow = ({
             )}
           </Stack>
         </Box>
+
+        {read && (
+          <Tooltip title="Read">
+            <CheckCircleRoundedIcon
+              aria-label="Read"
+              sx={{ fontSize: 18, color: "primary.main", opacity: 0.7, flexShrink: 0 }}
+            />
+          </Tooltip>
+        )}
 
         {/* Author dots menu */}
         {isAuthor && (
@@ -290,7 +323,7 @@ export const ChapterRow = ({
         <ChapterEdit
           open={editOpen}
           chapter={chapter}
-          creativeSlug={slug}
+          storySlug={slug}
           onClose={() => setEditOpen(false)}
           onSaved={onEdited}
         />
@@ -299,7 +332,7 @@ export const ChapterRow = ({
         <DeleteChapterDialog
           open={deleteOpen}
           chapter={chapter}
-          creativeSlug={slug}
+          storySlug={slug}
           onClose={() => setDeleteOpen(false)}
           onDeleted={onDeleted}
         />

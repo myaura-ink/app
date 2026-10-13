@@ -5,22 +5,29 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1775053712536,
-      "tag": "0000_open_wonder_man",
+      "when": 1791926076136,
+      "tag": "0000_init",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1791917278321,
-      "tag": "0001_faulty_charles_xavier",
+      "when": 1791926874593,
+      "tag": "0001_reading_and_search_history",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1791919238705,
-      "tag": "0002_lazy_spirit",
+      "when": 1791927066571,
+      "tag": "0002_project_support",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791927228580,
+      "tag": "0003_chapter_reads",
       "breakpoints": true
     }
   ]

@@ -1,8 +1,9 @@
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import type { Metadata } from "next";
-import { Google_Sans_Flex } from "next/font/google";
-import { home } from "@/content";
+import { Google_Sans_Flex, Literata } from "next/font/google";
+import { home, site } from "@/content";
 import "./globals.css";
-import { Header } from "./components";
+import { Footer, Header } from "./components";
 import { config } from "./config";
 import Providers from "./providers";
 
@@ -14,27 +15,36 @@ const googleSansFlex = Google_Sans_Flex({
   fallback: ["Helvetica", "Arial", "sans-serif"],
 });
 
+// serif face for long-form reading in the chapter reader
+const literata = Literata({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-literata",
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+});
+
+// site-wide defaults; each page overrides these through buildMetadata with copy from content/seo
 export const metadata: Metadata = {
-  title: home.title,
+  metadataBase: new URL(config.platform),
+  title: { default: home.title, template: `%s${site.titleSeparator}${site.name}` },
   description: home.description,
+  keywords: home.keywords,
+  applicationName: site.name,
   openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: site.locale,
     title: home.title,
     description: home.description,
-    images: [
-      {
-        url: `${config.platform}/opengraph-image.png`,
-        width: 1200,
-        height: 630,
-        alt: "Aura - A platform for writers and readers",
-      },
-    ],
+    images: [site.defaultImage],
   },
   twitter: {
     card: "summary_large_image",
+    site: site.twitterHandle,
     title: home.title,
     description: home.description,
   },
-  keywords: home.keywords,
 };
 
 export default function RootLayout({
@@ -43,11 +53,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${googleSansFlex.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${googleSansFlex.variable} ${literata.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col">
+        <InitColorSchemeScript attribute="class" />
         <Providers>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
