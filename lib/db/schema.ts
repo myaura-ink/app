@@ -11,7 +11,7 @@ export const users = pgTable(
     name: text("name"),
     slug: text("slug").notNull().unique(),
     image: text("image"),
-    roles: roleEnum("roles").array().notNull().default(["user"]),
+    roles: roleEnum("roles").array().notNull().default(["user", "writer"]),
     lastSignedInAt: timestamp("last_signed_in_at").defaultNow(),
     totalCreatives: integer("total_creatives").notNull().default(0),
     createdAt: timestamp("created_at").defaultNow(),
@@ -96,10 +96,7 @@ export const critiques = pgTable(
       .defaultNow()
       .$onUpdate(() => new Date()),
   },
-  (t) => [
-    index("critiques_creative_id_idx").on(t.creativeId),
-    index("critiques_user_id_idx").on(t.userId),
-  ],
+  (t) => [index("critiques_creative_id_idx").on(t.creativeId), index("critiques_user_id_idx").on(t.userId)],
 );
 
 export const readingList = pgTable(
