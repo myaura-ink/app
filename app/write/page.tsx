@@ -102,9 +102,7 @@ export default function WritePage() {
             </Select>
           </FormControl>
 
-          {createCreative.isError && (
-            <Alert severity="error">{createCreative.error.message}</Alert>
-          )}
+          {createCreative.isError && <Alert severity="error">{createCreative.error.message}</Alert>}
 
           <Stack direction="row" justifyContent="flex-end" gap={2} pt={1}>
             <Button

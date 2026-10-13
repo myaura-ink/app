@@ -8,6 +8,20 @@
       "when": 1775053712536,
       "tag": "0000_open_wonder_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791917278321,
+      "tag": "0001_faulty_charles_xavier",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791919238705,
+      "tag": "0002_lazy_spirit",
+      "breakpoints": true
     }
   ]
 }
