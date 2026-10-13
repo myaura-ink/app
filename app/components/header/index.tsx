@@ -239,9 +239,10 @@ const NavPill = ({
   </Button>
 );
 
-// nudges visitors to the like / pledge panel on the roadmap; beats gently until they've liked aura
+// links visitors to the like / pledge panel on the roadmap.
+// only reads the cache filled by the roadmap page, so it doesn't hit /api/support on every page load
 const SupportHeart = () => {
-  const { data } = useSupport();
+  const { data } = useSupport({ enabled: false });
   const liked = data?.me?.liked ?? false;
 
   return (
@@ -254,13 +255,6 @@ const SupportHeart = () => {
         sx={{
           color: liked ? "secondary.main" : "text.secondary",
           "&:hover": { color: "secondary.main" },
-          "& svg": { animation: liked ? "none" : "aura-heartbeat 2.4s ease-in-out 1s infinite" },
-          "@keyframes aura-heartbeat": {
-            "0%, 30%, 100%": { transform: "scale(1)" },
-            "10%": { transform: "scale(1.2)" },
-            "20%": { transform: "scale(1.08)" },
-          },
-          "@media (prefers-reduced-motion: reduce)": { "& svg": { animation: "none" } },
         }}
       >
         {liked ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}

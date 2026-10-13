@@ -12,12 +12,14 @@ const fetchJson = async (url: string, options?: RequestInit) => {
   return body;
 };
 
-export const useSupport = () => {
+// pass enabled: false to read whatever is cached (e.g. from the roadmap page) without fetching
+export const useSupport = ({ enabled = true }: { enabled?: boolean } = {}) => {
   const { token } = useAuthContext();
   return useQuery<SupportSummary>({
     queryKey: ["support", !!token],
     queryFn: () => fetchJson("/api/support", { headers: token ? { Authorization: `Bearer ${token}` } : {} }),
     staleTime: 60 * 1000,
+    enabled,
   });
 };
 
