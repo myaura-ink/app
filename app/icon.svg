@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#2d4036"/>
+  <!-- pen nib shaped as an "A" -->
+  <path d="M32 9 L50.5 53 H41.5 L32 30.5 L22.5 53 H13.5 Z" fill="#f4f5f2"/>
+  <!-- nib slit and breather hole -->
+  <path d="M32 9 V20.5" stroke="#2d4036" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="32" cy="23" r="2.4" fill="#2d4036"/>
+  <!-- tapered ink stroke as the crossbar -->
+  <path d="M11 48 C22 40.5 36 36.5 53 34.5 C38 42.5 25 46.5 11 48 Z" fill="#c8ad7f"/>
+</svg>

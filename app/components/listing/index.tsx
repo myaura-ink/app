@@ -9,13 +9,14 @@ import { CreativeCard } from "../creative-card";
 const SCROLL_AMOUNT = 640;
 
 interface ListingProps {
+  id?: string;
   overline?: string;
   title: string;
   description: string;
   creatives?: SelectCreativeWithAuthor[];
 }
 
-export const Listing = ({ overline = "Curated for you", title, description, creatives }: ListingProps) => {
+export const Listing = ({ id, overline = "Curated for you", title, description, creatives }: ListingProps) => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -23,7 +24,7 @@ export const Listing = ({ overline = "Curated for you", title, description, crea
   };
 
   return (
-    <Box component="section" sx={{ py: 8, bgcolor: "background.paper" }}>
+    <Box component="section" id={id} sx={{ py: 8, bgcolor: "background.paper", scrollMarginTop: 64 }}>
       <Container maxWidth="lg">
         <Stack
           direction="row"
@@ -66,38 +67,40 @@ export const Listing = ({ overline = "Curated for you", title, description, crea
               {description}
             </Typography>
           </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              gap: 1,
-              pb: 0.5,
-            }}
-          >
-            <IconButton
-              onClick={() => scroll("left")}
-              size="small"
+          {!!creatives?.length && (
+            <Stack
+              direction="row"
               sx={{
-                border: "1px solid",
-                borderColor: "divider",
-                borderRadius: 2,
-                "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                gap: 1,
+                pb: 0.5,
               }}
             >
-              <ChevronLeft />
-            </IconButton>
-            <IconButton
-              onClick={() => scroll("right")}
-              size="small"
-              sx={{
-                border: "1px solid",
-                borderColor: "divider",
-                borderRadius: 2,
-                "&:hover": { borderColor: "primary.main", color: "primary.main" },
-              }}
-            >
-              <ChevronRight />
-            </IconButton>
-          </Stack>
+              <IconButton
+                onClick={() => scroll("left")}
+                size="small"
+                sx={{
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 2,
+                  "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                }}
+              >
+                <ChevronLeft />
+              </IconButton>
+              <IconButton
+                onClick={() => scroll("right")}
+                size="small"
+                sx={{
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 2,
+                  "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                }}
+              >
+                <ChevronRight />
+              </IconButton>
+            </Stack>
+          )}
         </Stack>
 
         <Box
@@ -113,12 +116,16 @@ export const Listing = ({ overline = "Curated for you", title, description, crea
             scrollbarWidth: "none",
           }}
         >
-          {creatives &&
-            creatives.map((book) => (
-              <Box key={book.slug} sx={{ scrollSnapAlign: "start" }}>
-                <CreativeCard {...book} />
-              </Box>
-            ))}
+          {creatives?.length === 0 && (
+            <Typography sx={{ color: "text.secondary", py: 4 }}>
+              No works published yet. Yours could be the first.
+            </Typography>
+          )}
+          {creatives?.map((book) => (
+            <Box key={book.slug} sx={{ scrollSnapAlign: "start" }}>
+              <CreativeCard {...book} />
+            </Box>
+          ))}
         </Box>
       </Container>
     </Box>

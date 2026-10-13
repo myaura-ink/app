@@ -1,21 +1,37 @@
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { Button, Container, Link, Stack, Typography } from "@mui/material";
 import { config } from "@/app/config";
 
-export const Hero = () => {
+interface HeroProps {
+  writeHref: string;
+}
+
+export const Hero = ({ writeHref }: HeroProps) => {
   return (
-    <Container maxWidth="lg" component="section" sx={{ pt: 15, pb: 10, textAlign: "left" }}>
+    <Container maxWidth="lg" component="section" sx={{ pt: { xs: 10, md: 15 }, pb: 10, textAlign: "left" }}>
+      <Typography
+        variant="overline"
+        sx={{
+          color: "secondary.dark",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+        }}
+      >
+        A home for serialized fiction
+      </Typography>
       <Typography
         variant="h1"
         sx={{
           fontWeight: 800,
-          fontSize: { xs: "2.5rem", md: "6rem" },
+          fontSize: { xs: "2.5rem", md: "5.5rem" },
           letterSpacing: "-0.02em",
+          lineHeight: 1.05,
+          mt: 1,
           mb: 3,
           color: "primary.main",
         }}
       >
-        Join the inner circle of <br />
-        <span style={{ fontStyle: "italic", fontWeight: 400 }}>intentional storytelling.</span>
+        Write it. Publish it. <br />
+        <span style={{ fontStyle: "italic", fontWeight: 400 }}>Find the readers it deserves.</span>
       </Typography>
       <Typography
         variant="h6"
@@ -24,17 +40,23 @@ export const Hero = () => {
           color: "text.secondary",
           mb: 4,
           fontWeight: 400,
+          maxWidth: 680,
+          lineHeight: 1.6,
         }}
       >
-        Read stories <strong>crafted</strong> by authors who write with intent, for readers who read with purpose.
+        Aura is where authors publish their stories <strong>chapter by chapter</strong>, and readers follow along, save
+        the works they love, and leave critiques that help authors grow.
       </Typography>
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-        <Button href="/dive" variant="outlined" size="large">
-          Get Started
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: { sm: "center" } }}>
+        <Button href={writeHref} variant="contained" size="large">
+          Start writing
         </Button>
-        <Button href={config.socials.discord} variant="contained" size="large">
-          Join discord community &rarr;
+        <Button href="#latest" variant="outlined" size="large">
+          Explore stories
         </Button>
+        <Link href={config.socials.discord} underline="hover" sx={{ color: "text.secondary", pl: { sm: 1 } }}>
+          Join the community on Discord &rarr;
+        </Link>
       </Stack>
     </Container>
   );
