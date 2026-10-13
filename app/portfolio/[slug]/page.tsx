@@ -20,16 +20,40 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
       <Container maxWidth="md" sx={{ pt: 8, pb: 4 }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          gap={{ xs: 3, sm: 4 }}
-          alignItems={{ xs: "center", sm: "flex-start" }}
+          sx={{
+            gap: { xs: 3, sm: 4 },
+            alignItems: { xs: "center", sm: "flex-start" },
+          }}
         >
           <Avatar slug={portfolio.slug} size={96} />
-          <Stack gap={1.5} pt={{ xs: 0, sm: 1 }} alignItems={{ xs: "center", sm: "flex-start" }} width="100%">
-            <Stack gap={0} alignItems={{ xs: "center", sm: "flex-start" }}>
-              <Typography variant="h4" fontWeight={700}>
+          <Stack
+            sx={{
+              gap: 1.5,
+              pt: { xs: 0, sm: 1 },
+              alignItems: { xs: "center", sm: "flex-start" },
+              width: "100%",
+            }}
+          >
+            <Stack
+              sx={{
+                gap: 0,
+                alignItems: { xs: "center", sm: "flex-start" },
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
                 {portfolio.name ?? slug}
               </Typography>
-              <Typography variant="subtitle1" color="text.secondary">
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: "text.secondary",
+                }}
+              >
                 @{portfolio.slug}
               </Typography>
 
@@ -45,12 +69,36 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
                 </Button>
               )}
 
-              <Stack direction="row" gap={3} alignItems="center" mt={2} mb={0}>
-                <Stack direction="column" gap={0.25} alignItems="center">
-                  <Typography variant="h6" fontWeight={700}>
+              <Stack
+                direction="row"
+                sx={{
+                  gap: 3,
+                  alignItems: "center",
+                  mt: 2,
+                  mb: 0,
+                }}
+              >
+                <Stack
+                  direction="column"
+                  sx={{
+                    gap: 0.25,
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 700,
+                    }}
+                  >
                     {creatives.length || "—"}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: "text.secondary",
+                    }}
+                  >
                     Works
                   </Typography>
                 </Stack>

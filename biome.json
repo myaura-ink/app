@@ -1,12 +1,12 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": { "ignoreUnknown": false },
   "formatter": { "enabled": true, "indentStyle": "space", "lineWidth": 120 },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "preset": "none",
       "complexity": { "noUselessTypeConstraint": "error" },
       "correctness": { "noUnusedVariables": "error" },
       "performance": {
@@ -33,21 +33,7 @@
         "useNamespaceKeyword": "error"
       }
     },
-    "includes": [
-      "**",
-      "!.next/**",
-      "!out/**",
-      "!build/**",
-      "!next-env.d.ts",
-      "!.next/**",
-      "!out/**",
-      "!build/**",
-      "!next-env.d.ts",
-      "!.next/**",
-      "!out/**",
-      "!build/**",
-      "!next-env.d.ts"
-    ]
+    "includes": ["**", "!.next/**", "!out/**", "!build/**", "!next-env.d.ts"]
   },
   "javascript": { "formatter": { "quoteStyle": "double" }, "globals": [] },
   "css": {

@@ -30,8 +30,18 @@ export const PortfolioPageClient = ({ userSlug, isOwn, userName, creatives, memb
         {/* Works */}
         <TabPanel value={tab} index={0}>
           {creatives.length === 0 ? (
-            <Stack alignItems="center" py={6} gap={2}>
-              <Typography color="text.secondary">
+            <Stack
+              sx={{
+                alignItems: "center",
+                py: 6,
+                gap: 2,
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "text.secondary",
+                }}
+              >
                 {isOwn ? "You haven't written anything yet." : "No published works yet."}
               </Typography>
               {isOwn && (
@@ -56,7 +66,13 @@ export const PortfolioPageClient = ({ userSlug, isOwn, userName, creatives, memb
                   </Box>
                 ))}
               </Box>
-              <Stack sx={{ display: { xs: "flex", sm: "none" } }} gap={0} divider={<Divider />}>
+              <Stack
+                divider={<Divider />}
+                sx={{
+                  gap: 0,
+                  display: { xs: "flex", sm: "none" },
+                }}
+              >
                 {creatives.map((creative) => (
                   <CreativeCard key={creative.id} {...creative} variant="list" />
                 ))}
@@ -67,12 +83,26 @@ export const PortfolioPageClient = ({ userSlug, isOwn, userName, creatives, memb
 
         {/* About */}
         <TabPanel value={tab} index={1}>
-          <Stack gap={2}>
-            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+          <Stack
+            sx={{
+              gap: 2,
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                lineHeight: 1.8,
+              }}
+            >
               {userName ?? userSlug} is a writer on Aura.
             </Typography>
             <Divider />
-            <Stack gap={1}>
+            <Stack
+              sx={{
+                gap: 1,
+              }}
+            >
               {memberYear && (
                 <Typography variant="body2">
                   <strong>Member since:</strong> {memberYear}

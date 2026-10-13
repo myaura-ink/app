@@ -17,7 +17,6 @@ use the following alternatives instead:
 
 - story/stories => work/creatives
 - writer => author
-- bounty => vision
 - reader => patron
 - profile => portfolio
 - comments => critiques

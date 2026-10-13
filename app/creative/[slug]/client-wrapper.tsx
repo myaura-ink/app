@@ -49,7 +49,14 @@ export const CreativePageClient = ({ slug, authorId, description, initialChapter
 
       {/* About */}
       <TabPanel value={tab} index={0}>
-        <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: "pre-line", lineHeight: 1.9 }}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            whiteSpace: "pre-line",
+            lineHeight: 1.9,
+          }}
+        >
           {description || "No synopsis yet."}
         </Typography>
       </TabPanel>
@@ -57,13 +64,29 @@ export const CreativePageClient = ({ slug, authorId, description, initialChapter
       {/* Chapters */}
       <TabPanel value={tab} index={1}>
         {chapters.length === 0 && !showForm ? (
-          <Stack alignItems="center" py={8} gap={2}>
-            <Typography color="text.disabled" variant="body2">
+          <Stack
+            sx={{
+              alignItems: "center",
+              py: 8,
+              gap: 2,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.disabled",
+              }}
+            >
               {isAuthor ? "No chapters yet." : "No chapters published yet."}
             </Typography>
           </Stack>
         ) : (
-          <Stack gap={0} divider={<Divider />}>
+          <Stack
+            divider={<Divider />}
+            sx={{
+              gap: 0,
+            }}
+          >
             {chapters.map((ch, i) => (
               <ChapterRow
                 key={ch.id}
@@ -79,7 +102,11 @@ export const CreativePageClient = ({ slug, authorId, description, initialChapter
         )}
 
         {isAuthor && (
-          <Box mt={chapters.length > 0 ? 3 : 0}>
+          <Box
+            sx={{
+              mt: chapters.length > 0 ? 3 : 0,
+            }}
+          >
             <ChapterCreate
               slug={slug}
               open={showForm}

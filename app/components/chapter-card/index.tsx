@@ -1,6 +1,6 @@
 "use client";
 
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
@@ -151,9 +151,9 @@ export const ChapterRow = ({
     <>
       <Stack
         direction="row"
-        alignItems="center"
-        gap={1.5}
         sx={{
+          alignItems: "center",
+          gap: 1.5,
           py: 1.75,
           px: { xs: 0.5, sm: 1 },
           borderRadius: 1,
@@ -164,8 +164,13 @@ export const ChapterRow = ({
         {/* Number */}
         <Typography
           variant="body2"
-          fontWeight={700}
-          sx={{ minWidth: 26, color: "text.disabled", flexShrink: 0, userSelect: "none" }}
+          sx={{
+            fontWeight: 700,
+            minWidth: 26,
+            color: "text.disabled",
+            flexShrink: 0,
+            userSelect: "none",
+          }}
         >
           {index + 1}
         </Typography>
@@ -176,9 +181,26 @@ export const ChapterRow = ({
           href={`/creative/${slug}/chapter/${chapter.slug}`}
           sx={{ flex: 1, textDecoration: "none", color: "inherit", minWidth: 0 }}
         >
-          <Stack gap={0.4}>
-            <Stack direction="row" alignItems="center" gap={1} flexWrap="wrap">
-              <Typography variant="subtitle2" fontWeight={600} noWrap>
+          <Stack
+            sx={{
+              gap: 0.4,
+            }}
+          >
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: 1,
+                flexWrap: "wrap",
+              }}
+            >
+              <Typography
+                variant="subtitle2"
+                noWrap
+                sx={{
+                  fontWeight: 600,
+                }}
+              >
                 {chapter.title}
               </Typography>
               {isAuthor && chapter.published === 0 && (
@@ -201,7 +223,12 @@ export const ChapterRow = ({
               )}
             </Stack>
             {chapter.updatedAt && (
-              <Typography variant="caption" color="text.disabled">
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "text.disabled",
+                }}
+              >
                 Updated {formatDate(chapter.updatedAt)}
               </Typography>
             )}

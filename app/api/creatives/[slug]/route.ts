@@ -1,12 +1,9 @@
 import { and, asc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { db, creatives, chapters, users } from "@/lib";
+import { chapters, creatives, db, users } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   const result = await db
@@ -52,7 +49,7 @@ export async function GET(
     .where(
       isAuthor
         ? eq(chapters.creativeId, creative.id)
-        : and(eq(chapters.creativeId, creative.id), eq(chapters.published, 1))
+        : and(eq(chapters.creativeId, creative.id), eq(chapters.published, 1)),
     )
     .orderBy(asc(chapters.order));
 

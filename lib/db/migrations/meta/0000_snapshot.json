@@ -103,12 +103,8 @@
           "name": "chapters_creative_id_creatives_id_fk",
           "tableFrom": "chapters",
           "tableTo": "creatives",
-          "columnsFrom": [
-            "creative_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creative_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -212,12 +208,8 @@
           "name": "creatives_author_id_users_id_fk",
           "tableFrom": "creatives",
           "tableTo": "users",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -227,9 +219,7 @@
         "creatives_slug_unique": {
           "name": "creatives_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
@@ -318,9 +308,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -332,12 +320,7 @@
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
-      "values": [
-        "admin",
-        "super_admin",
-        "user",
-        "writer"
-      ]
+      "values": ["admin", "super_admin", "user", "writer"]
     }
   },
   "schemas": {},

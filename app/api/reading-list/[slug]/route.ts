@@ -12,10 +12,7 @@ async function authenticate(request: NextRequest) {
   }
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const payload = await authenticate(request);
   if (!payload) return NextResponse.json({ saved: false });
@@ -24,10 +21,7 @@ export async function GET(
   return NextResponse.json({ saved });
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const payload = await authenticate(request);
   if (!payload) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -36,10 +30,7 @@ export async function POST(
   return NextResponse.json({ saved: true });
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const payload = await authenticate(request);
   if (!payload) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

@@ -28,10 +28,7 @@ export const addToReadingList = async (userId: string, creativeSlug: string): Pr
 
   if (!creative) throw new Error("Creative not found");
 
-  await db
-    .insert(readingList)
-    .values({ userId, creativeId: creative.id })
-    .onConflictDoNothing();
+  await db.insert(readingList).values({ userId, creativeId: creative.id }).onConflictDoNothing();
 };
 
 export const removeFromReadingList = async (userId: string, creativeSlug: string): Promise<void> => {
@@ -43,9 +40,7 @@ export const removeFromReadingList = async (userId: string, creativeSlug: string
 
   if (!creative) return;
 
-  await db
-    .delete(readingList)
-    .where(and(eq(readingList.userId, userId), eq(readingList.creativeId, creative.id)));
+  await db.delete(readingList).where(and(eq(readingList.userId, userId), eq(readingList.creativeId, creative.id)));
 };
 
 export const getReadingList = async (userId: string): Promise<SelectCreativeWithAuthor[]> => {

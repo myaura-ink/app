@@ -18,10 +18,29 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
   const canCritique = user && !isAuthor;
 
   return (
-    <Stack gap={0} pt={1}>
+    <Stack
+      sx={{
+        gap: 0,
+        pt: 1,
+      }}
+    >
       {/* CTA bar */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" py={2} flexWrap="wrap" gap={1}>
-        <Typography variant="body2" color="text.secondary">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          py: 2,
+          flexWrap: "wrap",
+          gap: 1,
+        }}
+      >
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           {isLoading ? "" : `${critiques?.length ?? 0} critique${(critiques?.length ?? 0) !== 1 ? "s" : ""}`}
         </Typography>
 
@@ -38,7 +57,12 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
         )}
 
         {!user && (
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
             <NextLink href="/login" style={{ color: "inherit", fontWeight: 600 }}>
               Sign in
             </NextLink>{" "}
@@ -49,7 +73,11 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
 
       {/* Form */}
       {showForm && canCritique && (
-        <Box mb={2}>
+        <Box
+          sx={{
+            mb: 2,
+          }}
+        >
           <CritiqueForm slug={slug} onDone={() => setShowForm(false)} />
         </Box>
       )}
@@ -58,39 +86,94 @@ export const CritiquesPanel = ({ slug, authorId }: { slug: string; authorId: str
 
       {/* List */}
       {isLoading ? (
-        <Box display="flex" justifyContent="center" py={6}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            py: 6,
+          }}
+        >
           <CircularProgress size={24} />
         </Box>
       ) : !critiques || critiques.length === 0 ? (
-        <Stack alignItems="center" py={8}>
-          <Typography color="text.disabled" variant="body2">
+        <Stack
+          sx={{
+            alignItems: "center",
+            py: 8,
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.disabled",
+            }}
+          >
             No critiques yet.
           </Typography>
         </Stack>
       ) : (
-        <Stack gap={0} divider={<Divider />}>
+        <Stack
+          divider={<Divider />}
+          sx={{
+            gap: 0,
+          }}
+        >
           {critiques.map((c) => (
-            <Stack key={c.id} direction="row" gap={2} py={2.5}>
+            <Stack
+              key={c.id}
+              direction="row"
+              sx={{
+                gap: 2,
+                py: 2.5,
+              }}
+            >
               <Avatar slug={c.author.slug} size={34} />
-              <Stack gap={0.5} flex={1} minWidth={0}>
-                <Stack direction="row" alignItems="center" gap={1} flexWrap="wrap">
+              <Stack
+                sx={{
+                  gap: 0.5,
+                  flex: 1,
+                  minWidth: 0,
+                }}
+              >
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: "center",
+                    gap: 1,
+                    flexWrap: "wrap",
+                  }}
+                >
                   <NextLink href={`/portfolio/${c.author.slug}`} style={{ textDecoration: "none" }}>
                     <Typography
                       variant="subtitle2"
-                      fontWeight={600}
-                      sx={{ "&:hover": { textDecoration: "underline" } }}
+                      sx={{
+                        fontWeight: 600,
+                        "&:hover": { textDecoration: "underline" },
+                      }}
                     >
                       {c.author.name ?? c.author.slug}
                     </Typography>
                   </NextLink>
                   <StarDisplay rating={c.rating} />
                   {c.createdAt && (
-                    <Typography variant="caption" color="text.disabled">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "text.disabled",
+                      }}
+                    >
                       {formatDate(c.createdAt)}
                     </Typography>
                   )}
                 </Stack>
-                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, whiteSpace: "pre-line" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    lineHeight: 1.8,
+                    whiteSpace: "pre-line",
+                  }}
+                >
                   {c.body}
                 </Typography>
               </Stack>

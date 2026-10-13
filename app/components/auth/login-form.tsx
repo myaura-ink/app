@@ -29,7 +29,12 @@ export const LoginForm = () => {
         <Typography variant="h5" component="h1" sx={{ fontWeight: 600, mb: 1, color: "primary.main" }}>
           Welcome Back
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           Sign in to your account
         </Typography>
       </Box>

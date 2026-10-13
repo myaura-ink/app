@@ -25,19 +25,54 @@ export const Listing = ({ overline = "Curated for you", title, description, crea
   return (
     <Box component="section" sx={{ py: 8, bgcolor: "background.paper" }}>
       <Container maxWidth="lg">
-        <Stack direction="row" alignItems="flex-end" justifyContent="space-between" mb={4}>
-          <Stack gap={0.5}>
-            <Typography variant="overline" color="secondary.main" fontWeight={600}>
+        <Stack
+          direction="row"
+          sx={{
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            mb: 4,
+          }}
+        >
+          <Stack
+            sx={{
+              gap: 0.5,
+            }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                color: "secondary.main",
+                fontWeight: 600,
+              }}
+            >
               {overline}
             </Typography>
-            <Typography variant="h4" fontWeight={700} color="primary.main">
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+                color: "primary.main",
+              }}
+            >
               {title}
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 480 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                maxWidth: 480,
+              }}
+            >
               {description}
             </Typography>
           </Stack>
-          <Stack direction="row" gap={1} pb={0.5}>
+          <Stack
+            direction="row"
+            sx={{
+              gap: 1,
+              pb: 0.5,
+            }}
+          >
             <IconButton
               onClick={() => scroll("left")}
               size="small"

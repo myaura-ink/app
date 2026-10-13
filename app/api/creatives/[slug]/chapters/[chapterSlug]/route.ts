@@ -66,18 +66,11 @@ export async function PATCH(
     return NextResponse.json({ message: "No fields to update" }, { status: 400 });
   }
 
-  const [updated] = await db
-    .update(chapters)
-    .set(updates)
-    .where(eq(chapters.id, row.chapter.id))
-    .returning();
+  const [updated] = await db.update(chapters).set(updates).where(eq(chapters.id, row.chapter.id)).returning();
 
   // If publishing, also mark creative as published
   if (published && row.chapter.published === 0) {
-    await db
-      .update(creatives)
-      .set({ published: 1 })
-      .where(eq(creatives.slug, slug));
+    await db.update(creatives).set({ published: 1 }).where(eq(creatives.slug, slug));
   }
 
   return NextResponse.json(updated);

@@ -6,34 +6,92 @@ export const Mission = () => {
       <Container maxWidth="lg">
         <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
           <Box sx={{ flex: 1, border: "1px solid", borderColor: "divider", borderRadius: 2, p: 4 }}>
-            <Typography variant="overline" color="secondary.main" fontWeight={600}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: "secondary.main",
+                fontWeight: 600,
+              }}
+            >
               The Discovery Gap
             </Typography>
-            <Typography variant="h3" fontWeight={700} color="primary.main" mt={1} mb={2} lineHeight={1.2}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                color: "primary.main",
+                mt: 1,
+                mb: 2,
+                lineHeight: 1.2,
+              }}
+            >
               Stop writing into the void.
             </Typography>
-            <Typography component="p" variant="body1" color="text.secondary" lineHeight={1.8}>
-              Every day, brilliant creativity is lost because writers are forced to guess what the world wants.
-              Meanwhile, readers search for specific arcs and characters that simply don&apos;t exist yet.
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                lineHeight: 1.8,
+              }}
+            >
+              Every day, brilliant writing goes unread, buried under noise and algorithms. Aura puts craft first, so
+              every work has a chance to find the readers it deserves.
             </Typography>
             <Divider sx={{ my: 3, width: "15%", borderColor: "divider" }} />
-            <Typography component="p" variant="body1" color="text.secondary" fontStyle="italic">
-              &quot;Aura bridges the gap between creative ambition and intentional demand.&quot;
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                fontStyle: "italic",
+              }}
+            >
+              &quot;Aura bridges the gap between creative ambition and intentional readers.&quot;
             </Typography>
           </Box>
 
           <Box sx={{ flex: 1, border: "1px solid", borderColor: "divider", borderRadius: 2, p: 4 }}>
-            <Typography variant="overline" color="secondary.main" fontWeight={600}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: "secondary.main",
+                fontWeight: 600,
+              }}
+            >
               The Missing Piece
             </Typography>
-            <Typography variant="h3" fontWeight={700} color="primary.main" mt={1} mb={2} lineHeight={1.2}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                color: "primary.main",
+                mt: 1,
+                mb: 2,
+                lineHeight: 1.2,
+              }}
+            >
               Stop finding a needle in a haystack.
             </Typography>
-            <Typography component="p" variant="body1" color="text.secondary" lineHeight={1.8}>
-              Tell the creator what you want to bring to life. Help writers find their muse.
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                lineHeight: 1.8,
+              }}
+            >
+              Discover stories worth your time, build your reading list, and leave critiques that help authors grow.
             </Typography>
             <Divider sx={{ my: 3, width: "15%", borderColor: "divider" }} />
-            <Typography component="p" variant="body1" color="text.secondary" fontStyle="italic">
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                fontStyle: "italic",
+              }}
+            >
               &quot;Aura is the missing piece in the puzzle of storytelling.&quot;
             </Typography>
           </Box>

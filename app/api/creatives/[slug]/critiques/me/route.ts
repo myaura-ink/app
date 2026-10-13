@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { hasUserCritiqued } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   const authHeader = request.headers.get("authorization");

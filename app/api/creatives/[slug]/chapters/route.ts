@@ -1,13 +1,10 @@
 import { asc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { db, creatives, chapters } from "@/lib";
+import { chapters, creatives, db } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 import { toUniqueSlug } from "@/lib/utils/slug";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   const authHeader = request.headers.get("authorization");
@@ -23,10 +20,7 @@ export async function POST(
     return NextResponse.json({ message: "Invalid or expired token" }, { status: 401 });
   }
 
-  const creativeResult = await db
-    .select()
-    .from(creatives)
-    .where(eq(creatives.slug, slug));
+  const creativeResult = await db.select().from(creatives).where(eq(creatives.slug, slug));
 
   if (creativeResult.length === 0) {
     return NextResponse.json({ message: "Creative not found" }, { status: 404 });
@@ -67,10 +61,7 @@ export async function POST(
 
   // If publishing a chapter, also mark the creative as published
   if (published && creative.published === 0) {
-    await db
-      .update(creatives)
-      .set({ published: 1 })
-      .where(eq(creatives.id, creative.id));
+    await db.update(creatives).set({ published: 1 }).where(eq(creatives.id, creative.id));
   }
 
   return NextResponse.json(chapter, { status: 201 });

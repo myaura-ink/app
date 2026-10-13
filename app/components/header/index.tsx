@@ -21,7 +21,6 @@ import { AuthButton } from "../auth-button";
 
 const NAV_LINKS: { label: string; href: string }[] = [
   // { label: "Explore", href: "/explore" },
-  // { label: "Bounties", href: "/bounty" },
 ];
 
 export const Header = () => {
@@ -41,11 +40,30 @@ export const Header = () => {
       >
         <Toolbar disableGutters sx={{ minHeight: { xs: 56, sm: 64 } }}>
           <Container maxWidth="lg">
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack
+              direction="row"
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               {/* Left: brand + desktop nav */}
-              <Stack direction="row" alignItems="center" gap={2}>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
                 <Brand />
-                <Stack direction="row" alignItems="center" sx={{ display: { xs: "none", sm: "flex" }, ml: 2 }}>
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: "center",
+                    display: { xs: "none", sm: "flex" },
+                    ml: 2,
+                  }}
+                >
                   {NAV_LINKS.map(({ label, href }) => (
                     <Button
                       key={href}
@@ -79,7 +97,13 @@ export const Header = () => {
               </Stack>
 
               {/* Right: auth + mobile menu */}
-              <Stack direction="row" alignItems="center" gap={1}>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
                 <AuthButton />
                 <IconButton
                   size="small"
@@ -116,9 +140,14 @@ export const Header = () => {
         {/* Drawer header */}
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ px: 3, py: 2, borderBottom: "1px solid", borderColor: "divider" }}
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+            px: 3,
+            py: 2,
+            borderBottom: "1px solid",
+            borderColor: "divider",
+          }}
         >
           <Brand />
           <IconButton
@@ -132,7 +161,14 @@ export const Header = () => {
         </Stack>
 
         {/* Drawer nav */}
-        <Stack sx={{ px: 2, pt: 2, pb: 3 }} gap={0.5}>
+        <Stack
+          sx={{
+            gap: 0.5,
+            px: 2,
+            pt: 2,
+            pb: 3,
+          }}
+        >
           {NAV_LINKS.map(({ label, href }) => (
             <Box
               key={href}
@@ -152,8 +188,10 @@ export const Header = () => {
             >
               <Typography
                 variant="body1"
-                fontWeight={isActive(href) ? 600 : 500}
                 color={isActive(href) ? "primary.main" : "text.primary"}
+                sx={{
+                  fontWeight: isActive(href) ? 600 : 500,
+                }}
               >
                 {label}
               </Typography>
@@ -179,11 +217,23 @@ const Brand = () => (
     <Typography
       component="span"
       variant="h6"
-      color="primary.main"
-      fontWeight={700}
-      sx={{ letterSpacing: "-0.02em", opacity: 1, transition: "opacity 0.15s", ":hover": { opacity: 0.7 } }}
+      sx={{
+        color: "primary.main",
+        fontWeight: 700,
+        letterSpacing: "-0.02em",
+        opacity: 1,
+        transition: "opacity 0.15s",
+        ":hover": { opacity: 0.7 },
+      }}
     >
-      <Typography component="span" variant="h5" color="primary.main" fontWeight={800}>
+      <Typography
+        component="span"
+        variant="h5"
+        sx={{
+          color: "primary.main",
+          fontWeight: 800,
+        }}
+      >
         a
       </Typography>
       ura

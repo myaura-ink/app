@@ -2,16 +2,7 @@
 
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import {
-  Box,
-  Button,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Avatar } from "@/app/components/avatar";
@@ -39,13 +30,19 @@ export const AuthButton = () => {
     <Box>
       {user ? (
         <>
-          <Stack direction="row" alignItems="center" gap={1} onClick={handleOpen} sx={{ cursor: "pointer" }}>
+          <Stack
+            direction="row"
+            onClick={handleOpen}
+            sx={{
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+            }}
+          >
             <Box sx={{ borderRadius: "50%", overflow: "hidden", width: 30, height: 30, flexShrink: 0 }}>
               <Avatar slug={user.slug} size={30} />
             </Box>
-            <Typography variant="body2">
-              {user.name ?? user.email}
-            </Typography>
+            <Typography variant="body2">{user.name ?? user.email}</Typography>
           </Stack>
           <Menu
             anchorEl={anchorEl}

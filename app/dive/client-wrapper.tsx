@@ -29,8 +29,21 @@ export const DivePageClient = () => {
         {/* Mobile brand */}
         <Box sx={{ display: { xs: "block", md: "none" }, mb: 6, textAlign: "center" }}>
           <Link href="/" style={{ textDecoration: "none" }}>
-            <Typography variant="h5" fontWeight={800} color="primary.main">
-              <Typography component="span" variant="h4" fontWeight={800} color="primary.main">
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 800,
+                color: "primary.main",
+              }}
+            >
+              <Typography
+                component="span"
+                variant="h4"
+                sx={{
+                  fontWeight: 800,
+                  color: "primary.main",
+                }}
+              >
                 a
               </Typography>
               ura

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { db, creatives, users } from "@/lib";
+import { creatives, db, users } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 import { toUniqueSlug } from "@/lib/utils/slug";
 

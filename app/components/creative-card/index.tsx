@@ -30,9 +30,9 @@ export const CreativeCard = ({
       <NextLink href={`/creative/${slug}`} style={{ textDecoration: "none", color: "inherit" }}>
         <Stack
           direction="row"
-          gap={2}
-          alignItems="flex-start"
           sx={{
+            gap: 2,
+            alignItems: "flex-start",
             py: 2,
             px: 1,
             borderRadius: 1,
@@ -62,11 +62,29 @@ export const CreativeCard = ({
               }}
             />
           </CardMedia>
-          <Stack gap={0.5} minWidth={0} flex={1}>
-            <Typography variant="subtitle2" fontWeight={600} color="inherit">
+          <Stack
+            sx={{
+              gap: 0.5,
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
+            <Typography
+              variant="subtitle2"
+              sx={{
+                fontWeight: 600,
+                color: "inherit",
+              }}
+            >
               {title}
             </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap>
+            <Typography
+              variant="caption"
+              noWrap
+              sx={{
+                color: "text.secondary",
+              }}
+            >
               {author?.name || "anonymous"}
             </Typography>
             <Chip label={genre} size="small" sx={{ alignSelf: "flex-start" }} />
@@ -121,16 +139,31 @@ export const CreativeCard = ({
             flexDirection: "column",
           }}
         >
-          <Stack gap={0.5}>
+          <Stack
+            sx={{
+              gap: 0.5,
+            }}
+          >
             <Typography
               variant="body2"
-              fontWeight={600}
-              lineHeight={1.3}
-              sx={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}
+              sx={{
+                fontWeight: 600,
+                lineHeight: 1.3,
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+              }}
             >
               {title}
             </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap>
+            <Typography
+              variant="caption"
+              noWrap
+              sx={{
+                color: "text.secondary",
+              }}
+            >
               {author?.name || "anonymous"}
             </Typography>
             <Chip label={genre} size="small" sx={{ mt: 0.25, alignSelf: "flex-start" }} />

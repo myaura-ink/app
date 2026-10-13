@@ -11,7 +11,13 @@ function StarPicker({ value, onChange }: { value: number; onChange: (v: number) 
   const active = hovered || value;
 
   return (
-    <Stack direction="row" gap={0.25} onMouseLeave={() => setHovered(0)}>
+    <Stack
+      direction="row"
+      onMouseLeave={() => setHovered(0)}
+      sx={{
+        gap: 0.25,
+      }}
+    >
       {[1, 2, 3, 4, 5].map((n) => (
         <IconButton
           key={n}
@@ -50,22 +56,43 @@ export const CritiqueForm = ({ slug, onDone }: { slug: string; onDone: () => voi
     >
       <Typography
         variant="overline"
-        color="secondary.main"
-        fontWeight={600}
-        letterSpacing="0.12em"
-        mb={2}
-        display="block"
+        sx={{
+          color: "secondary.main",
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          mb: 2,
+          display: "block",
+        }}
       >
         Your Critique
       </Typography>
-      <Stack gap={2}>
-        <Stack gap={0.75}>
-          <Typography variant="caption" color="text.secondary" fontWeight={500}>
+      <Stack
+        sx={{
+          gap: 2,
+        }}
+      >
+        <Stack
+          sx={{
+            gap: 0.75,
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              color: "text.secondary",
+              fontWeight: 500,
+            }}
+          >
             Rating
           </Typography>
           <StarPicker value={rating} onChange={setRating} />
           {rating > 0 && (
-            <Typography variant="caption" color="text.disabled">
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.disabled",
+              }}
+            >
               {["", "Poor", "Fair", "Good", "Great", "Excellent"][rating]}
             </Typography>
           )}
@@ -80,7 +107,13 @@ export const CritiqueForm = ({ slug, onDone }: { slug: string; onDone: () => voi
           size="small"
         />
         {addCritique.isError && <Alert severity="error">{addCritique.error.message}</Alert>}
-        <Stack direction="row" gap={1.5} justifyContent="flex-end">
+        <Stack
+          direction="row"
+          sx={{
+            gap: 1.5,
+            justifyContent: "flex-end",
+          }}
+        >
           <Button size="small" color="inherit" onClick={onDone} sx={{ color: "text.secondary" }}>
             Cancel
           </Button>

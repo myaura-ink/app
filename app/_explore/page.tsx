@@ -4,15 +4,40 @@ import { Footer, Listing } from "@/app/components";
 export default function ExplorePage() {
   return (
     <Box component="main" sx={{ bgcolor: "background.paper" }}>
-      <Box sx={{ bgcolor: "background.default", borderBottom: "1px solid", borderColor: "divider", py: { xs: 6, md: 8 } }}>
+      <Box
+        sx={{ bgcolor: "background.default", borderBottom: "1px solid", borderColor: "divider", py: { xs: 6, md: 8 } }}
+      >
         <Container maxWidth="lg">
-          <Typography variant="overline" color="secondary.main" fontWeight={600} letterSpacing="0.12em" display="block">
+          <Typography
+            variant="overline"
+            sx={{
+              color: "secondary.main",
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+              display: "block",
+            }}
+          >
             Discover
           </Typography>
-          <Typography variant="h3" fontWeight={800} lineHeight={1.15} mt={1}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 800,
+              lineHeight: 1.15,
+              mt: 1,
+            }}
+          >
             Explore Stories
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mt: 1.5, maxWidth: 520, lineHeight: 1.8 }}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "text.secondary",
+              mt: 1.5,
+              maxWidth: 520,
+              lineHeight: 1.8,
+            }}
+          >
             Browse the full catalogue — from debut voices to seasoned authors, across every genre we carry.
           </Typography>
         </Container>

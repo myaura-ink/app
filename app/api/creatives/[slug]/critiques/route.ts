@@ -2,19 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { addCritique, getCritiquesByCreativeSlug, isCreativeAuthor } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const critiques = await getCritiquesByCreativeSlug(slug);
   return NextResponse.json(critiques);
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   const authHeader = request.headers.get("authorization");

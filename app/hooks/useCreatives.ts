@@ -84,7 +84,11 @@ export const useCreateCreative = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation<CreativeSummary, Error, { title: string; description?: string; coverImage?: string; genre?: string }>({
+  return useMutation<
+    CreativeSummary,
+    Error,
+    { title: string; description?: string; coverImage?: string; genre?: string }
+  >({
     mutationFn: (data) =>
       fetchJson("/api/creatives", {
         method: "POST",
@@ -258,11 +262,7 @@ export const useCreateChapter = (creativeSlug: string) => {
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation<
-    ChapterSummary,
-    Error,
-    { title: string; content?: string; published: boolean }
-  >({
+  return useMutation<ChapterSummary, Error, { title: string; content?: string; published: boolean }>({
     mutationFn: (data) =>
       fetchJson(`/api/creatives/${creativeSlug}/chapters`, {
         method: "POST",

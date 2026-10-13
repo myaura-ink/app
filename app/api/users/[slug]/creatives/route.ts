@@ -1,12 +1,9 @@
 import { and, asc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { db, creatives, users, chapters } from "@/lib";
+import { chapters, creatives, db, users } from "@/lib";
 import { verifyToken } from "@/lib/auth";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   const userResult = await db.select().from(users).where(eq(users.slug, slug));
@@ -42,11 +39,7 @@ export async function GET(
       updatedAt: creatives.updatedAt,
     })
     .from(creatives)
-    .where(
-      isOwner
-        ? eq(creatives.authorId, user.id)
-        : and(eq(creatives.authorId, user.id), eq(creatives.published, 1))
-    )
+    .where(isOwner ? eq(creatives.authorId, user.id) : and(eq(creatives.authorId, user.id), eq(creatives.published, 1)))
     .orderBy(asc(creatives.createdAt));
 
   // Attach chapter counts
@@ -61,8 +54,11 @@ export async function GET(
         chapterCount: chapterRows.length,
         publishedChapterCount: chapterRows.filter((c) => c.published === 1).length,
       };
-    })
+    }),
   );
 
-  return NextResponse.json({ user: { id: user.id, name: user.name, slug: user.slug, image: user.image, createdAt: user.createdAt }, creatives: results });
+  return NextResponse.json({
+    user: { id: user.id, name: user.name, slug: user.slug, image: user.image, createdAt: user.createdAt },
+    creatives: results,
+  });
 }

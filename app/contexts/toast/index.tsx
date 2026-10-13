@@ -51,12 +51,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert
-          onClose={handleClose}
-          severity={toast?.severity ?? "info"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
+        <Alert onClose={handleClose} severity={toast?.severity ?? "info"} variant="filled" sx={{ width: "100%" }}>
           {toast?.message}
         </Alert>
       </Snackbar>

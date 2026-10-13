@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowBack, FormatListBulleted } from "@mui/icons-material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
@@ -245,7 +245,13 @@ export const ChapterPageClient = ({
   const sidebarContent = (
     <Box sx={{ width: SIDEBAR_WIDTH, display: "flex", flexDirection: "column", height: "100%" }}>
       <Box sx={{ px: 2.5, pt: 3, pb: 2 }}>
-        <Stack direction="row" alignItems="center" gap={1}>
+        <Stack
+          direction="row"
+          sx={{
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
           <Tooltip title="Back to creative">
             <IconButton
               component={NextLink}
@@ -257,10 +263,23 @@ export const ChapterPageClient = ({
             </IconButton>
           </Tooltip>
           <Box sx={{ flex: 1 }}>
-            <Typography variant="overline" color="text.disabled" fontWeight={600}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.disabled",
+                fontWeight: 600,
+              }}
+            >
               Chapters
             </Typography>
-            <Typography variant="subtitle2" fontWeight={700} color="text.primary" noWrap>
+            <Typography
+              variant="subtitle2"
+              noWrap
+              sx={{
+                fontWeight: 700,
+                color: "text.primary",
+              }}
+            >
               {book?.title || "Untitled"}
             </Typography>
           </Box>
@@ -285,14 +304,25 @@ export const ChapterPageClient = ({
               >
                 <ListItemText
                   primary={
-                    <Stack direction="row" gap={1.5} alignItems="baseline">
+                    <Stack
+                      direction="row"
+                      sx={{
+                        gap: 1.5,
+                        alignItems: "baseline",
+                      }}
+                    >
                       <Typography
                         variant="caption"
                         sx={{ color: isActive ? "rgba(255,255,255,0.6)" : "text.disabled", minWidth: 20 }}
                       >
                         {ch.order}
                       </Typography>
-                      <Typography variant="body2" fontWeight={isActive ? 600 : 400}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: isActive ? 600 : 400,
+                        }}
+                      >
                         {ch.title}
                       </Typography>
                     </Stack>
@@ -329,8 +359,13 @@ export const ChapterPageClient = ({
         </IconButton>
         <Typography
           variant="body2"
-          fontWeight={600}
-          sx={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+          sx={{
+            fontWeight: 600,
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
         >
           {localTitle}
         </Typography>
@@ -395,7 +430,14 @@ export const ChapterPageClient = ({
               width: "100%",
             }}
           >
-            <Typography variant="h4" fontWeight={700} lineHeight={1.2} sx={{ flex: 1 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+                lineHeight: 1.2,
+                flex: 1,
+              }}
+            >
               {localTitle}
             </Typography>
             {isAuthor && (
@@ -443,7 +485,12 @@ export const ChapterPageClient = ({
             ) : (
               <Box />
             )}
-            <Typography variant="caption" color="text.disabled">
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.disabled",
+              }}
+            >
               {localTitle}
             </Typography>
             {next ? (

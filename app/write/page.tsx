@@ -49,19 +49,47 @@ export default function WritePage() {
   return (
     <Box sx={{ bgcolor: "background.paper", minHeight: "100vh" }}>
       <Container maxWidth="sm" sx={{ py: { xs: 5, md: 8 } }}>
-        <Stack gap={1} mb={6}>
-          <Typography variant="overline" color="secondary.main" fontWeight={600} letterSpacing="0.12em">
+        <Stack
+          sx={{
+            gap: 1,
+            mb: 6,
+          }}
+        >
+          <Typography
+            variant="overline"
+            sx={{
+              color: "secondary.main",
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+            }}
+          >
             New Story
           </Typography>
-          <Typography variant="h4" fontWeight={800} lineHeight={1.2}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              lineHeight: 1.2,
+            }}
+          >
             Start writing
           </Typography>
-          <Typography variant="body2" color="text.secondary" mt={0.5}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+              mt: 0.5,
+            }}
+          >
             Give your story a title and a brief synopsis. You can add chapters once it&apos;s created.
           </Typography>
         </Stack>
 
-        <Stack gap={3.5}>
+        <Stack
+          sx={{
+            gap: 3.5,
+          }}
+        >
           <TextField
             label="Title"
             value={title}
@@ -104,7 +132,14 @@ export default function WritePage() {
 
           {createCreative.isError && <Alert severity="error">{createCreative.error.message}</Alert>}
 
-          <Stack direction="row" justifyContent="flex-end" gap={2} pt={1}>
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "flex-end",
+              gap: 2,
+              pt: 1,
+            }}
+          >
             <Button
               variant="contained"
               size="large"

@@ -26,8 +26,7 @@ export const Hero = () => {
           fontWeight: 400,
         }}
       >
-        Read stories <strong>nurtured</strong> by readers who believe in a vision and have the means to bring it to
-        life.
+        Read stories <strong>crafted</strong> by authors who write with intent, for readers who read with purpose.
       </Typography>
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
         <Button href="/dive" variant="outlined" size="large">

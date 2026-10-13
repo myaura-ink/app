@@ -47,19 +47,19 @@ body {
   padding: 0 !important;
 }
 
-.w-md-editor-toolbar li>button {
+.w-md-editor-toolbar li > button {
   color: #54635c !important;
   border-radius: 6px !important;
   height: 28px !important;
   width: 28px !important;
 }
 
-.w-md-editor-toolbar li>button:hover {
+.w-md-editor-toolbar li > button:hover {
   color: #1b2621 !important;
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
-.w-md-editor-toolbar li>button[data-active="true"] {
+.w-md-editor-toolbar li > button[data-active="true"] {
   color: #4e6e5d !important;
   background-color: rgba(78, 110, 93, 0.1) !important;
 }
@@ -71,13 +71,13 @@ body {
 }
 
 .w-md-editor-text-textarea,
-.w-md-editor-text>.w-md-editor-text-pre>code {
+.w-md-editor-text > .w-md-editor-text-pre > code {
   font-size: 1.2rem !important;
   line-height: 1.9 !important;
   caret-color: #4e6e5d !important;
 }
 
-body .w-md-editor-text-pre>code,
+body .w-md-editor-text-pre > code,
 body .w-md-editor-text-input {
   font-size: 1.2rem !important;
   line-height: 2rem !important;
@@ -95,7 +95,7 @@ body .w-md-editor-text-input {
 
 .w-md-editor-text-pre,
 .w-md-editor-text-input,
-.w-md-editor-text>.w-md-editor-text-pre {
+.w-md-editor-text > .w-md-editor-text-pre {
   font-family: inherit !important;
 }
 

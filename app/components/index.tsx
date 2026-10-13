@@ -1,7 +1,6 @@
 export * from "./auth";
 export * from "./auth-button";
 export * from "./avatar";
-export * from "./bounty-card";
 export * from "./chapter-card";
 export * from "./create-chapter";
 export * from "./creative-card";

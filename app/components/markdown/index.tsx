@@ -84,9 +84,20 @@ export function FullPageEditor({
               </IconButton>
             </Tooltip>
 
-            <Box flex={1} />
+            <Box
+              sx={{
+                flex: 1,
+              }}
+            />
 
-            <Stack direction="row" gap={1} alignItems="center" flexShrink={0}>
+            <Stack
+              direction="row"
+              sx={{
+                gap: 1,
+                alignItems: "center",
+                flexShrink: 0,
+              }}
+            >
               {mode === "create" ? (
                 <>
                   <Button
@@ -160,7 +171,13 @@ export function FullPageEditor({
 
             {/* Editor */}
             {contentLoading ? (
-              <Box display="flex" justifyContent="center" pt={8}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  pt: 8,
+                }}
+              >
                 <CircularProgress size={28} />
               </Box>
             ) : (
@@ -187,7 +204,12 @@ export function FullPageEditor({
             pointerEvents: "none",
           }}
         >
-          <Typography variant="caption" color="text.disabled">
+          <Typography
+            variant="caption"
+            sx={{
+              color: "text.disabled",
+            }}
+          >
             {wordCount} {wordCount === 1 ? "word" : "words"}
           </Typography>
         </Box>

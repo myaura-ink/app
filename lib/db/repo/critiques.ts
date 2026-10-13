@@ -41,10 +41,7 @@ export const addCritique = async (
 
   if (!creative) throw new Error("Creative not found");
 
-  const [inserted] = await db
-    .insert(critiques)
-    .values({ creativeId: creative.id, userId, body, rating })
-    .returning();
+  const [inserted] = await db.insert(critiques).values({ creativeId: creative.id, userId, body, rating }).returning();
 
   const [user] = await db
     .select({ id: users.id, name: users.name, slug: users.slug })

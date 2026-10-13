@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { db, users } from "@/lib";
-import { signToken } from "@/lib/auth";
+import { setAuthCookies, signToken } from "@/lib/auth";
 import { hashPassword } from "@/lib/auth/password";
 import { toSlug, toUniqueSlug } from "@/lib/utils/slug";
 
@@ -40,5 +41,6 @@ export async function POST(request: NextRequest) {
     createdAt: created.createdAt,
     updatedAt: created.updatedAt,
   };
+  setAuthCookies(await cookies(), token);
   return NextResponse.json({ user, token }, { status: 201 });
 }

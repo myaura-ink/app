@@ -18,20 +18,41 @@ export default function Dive() {
         }}
       >
         <Link href="/" style={{ textDecoration: "none" }}>
-          <Typography variant="h4" fontWeight={800} sx={{ color: "primary.contrastText", letterSpacing: "-0.02em" }}>
-            <Typography component="span" variant="h3" fontWeight={800} sx={{ color: "secondary.light" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              color: "primary.contrastText",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            <Typography
+              component="span"
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                color: "secondary.light",
+              }}
+            >
               a
             </Typography>
             ura
           </Typography>
         </Link>
 
-        <Stack gap={3}>
+        <Stack
+          sx={{
+            gap: 3,
+          }}
+        >
           <Typography
             variant="h3"
-            fontWeight={700}
-            lineHeight={1.2}
-            sx={{ color: "primary.contrastText", letterSpacing: "-0.02em" }}
+            sx={{
+              fontWeight: 700,
+              lineHeight: 1.2,
+              color: "primary.contrastText",
+              letterSpacing: "-0.02em",
+            }}
           >
             Stories that find their reader.
           </Typography>

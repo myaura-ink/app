@@ -110,12 +110,8 @@
           "name": "chapters_creative_id_creatives_id_fk",
           "tableFrom": "chapters",
           "tableTo": "creatives",
-          "columnsFrom": [
-            "creative_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creative_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -268,12 +264,8 @@
           "name": "creatives_author_id_users_id_fk",
           "tableFrom": "creatives",
           "tableTo": "users",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -283,9 +275,7 @@
         "creatives_slug_unique": {
           "name": "creatives_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
@@ -379,12 +369,8 @@
           "name": "critiques_creative_id_creatives_id_fk",
           "tableFrom": "critiques",
           "tableTo": "creatives",
-          "columnsFrom": [
-            "creative_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creative_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -392,12 +378,8 @@
           "name": "critiques_user_id_users_id_fk",
           "tableFrom": "critiques",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -476,12 +458,8 @@
           "name": "reading_list_user_id_users_id_fk",
           "tableFrom": "reading_list",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -489,12 +467,8 @@
           "name": "reading_list_creative_id_creatives_id_fk",
           "tableFrom": "reading_list",
           "tableTo": "creatives",
-          "columnsFrom": [
-            "creative_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creative_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -504,10 +478,7 @@
         "reading_list_user_creative_unique": {
           "name": "reading_list_user_creative_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id",
-            "creative_id"
-          ]
+          "columns": ["user_id", "creative_id"]
         }
       },
       "policies": {},
@@ -630,16 +601,12 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         },
         "users_slug_unique": {
           "name": "users_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
@@ -651,12 +618,7 @@
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
-      "values": [
-        "admin",
-        "super_admin",
-        "user",
-        "writer"
-      ]
+      "values": ["admin", "super_admin", "user", "writer"]
     }
   },
   "schemas": {},
